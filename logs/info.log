@@ -1,0 +1,28 @@
+18:41:24.911 [background-preinit] INFO  o.h.v.i.util.Version - [<clinit>,21] - HV000001: Hibernate Validator 6.2.5.Final
+18:41:24.920 [main] INFO  c.d.DormitoryManagementApplication - [logStarting,55] - Starting DormitoryManagementApplication using Java 17.0.11 on DESKTOP-J9224BQ with PID 5292 (D:\IdeaProjects\dormitory_management\target\classes started by Administrator in D:\IdeaProjects\dormitory_management)
+18:41:24.921 [main] INFO  c.d.DormitoryManagementApplication - [logStartupProfileInfo,640] - The following 1 profile is active: "dev"
+18:41:27.180 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-8080"]
+18:41:27.181 [main] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+18:41:27.181 [main] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet engine: [Apache Tomcat/9.0.65]
+18:41:27.301 [main] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring embedded WebApplicationContext
+18:41:27.430 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - [dataSource,56] - Init DruidDataSource
+18:41:27.606 [main] INFO  c.a.d.p.DruidDataSource - [init,928] - {dataSource-1} inited
+18:41:30.103 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-8080"]
+18:41:30.124 [main] INFO  c.a.d.p.DruidDataSource - [close,1823] - {dataSource-1} closed
+18:41:30.127 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Pausing ProtocolHandler ["http-nio-8080"]
+18:41:30.127 [main] INFO  o.a.c.c.StandardService - [log,173] - Stopping service [Tomcat]
+18:41:30.136 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Stopping ProtocolHandler ["http-nio-8080"]
+18:41:30.136 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Destroying ProtocolHandler ["http-nio-8080"]
+18:41:40.238 [background-preinit] INFO  o.h.v.i.util.Version - [<clinit>,21] - HV000001: Hibernate Validator 6.2.5.Final
+18:41:40.242 [main] INFO  c.d.DormitoryManagementApplication - [logStarting,55] - Starting DormitoryManagementApplication using Java 17.0.11 on DESKTOP-J9224BQ with PID 19144 (D:\IdeaProjects\dormitory_management\target\classes started by Administrator in D:\IdeaProjects\dormitory_management)
+18:41:40.243 [main] INFO  c.d.DormitoryManagementApplication - [logStartupProfileInfo,640] - The following 1 profile is active: "dev"
+18:41:41.582 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-8080"]
+18:41:41.583 [main] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+18:41:41.583 [main] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet engine: [Apache Tomcat/9.0.65]
+18:41:41.650 [main] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring embedded WebApplicationContext
+18:41:41.718 [main] INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure - [dataSource,56] - Init DruidDataSource
+18:41:41.853 [main] INFO  c.a.d.p.DruidDataSource - [init,928] - {dataSource-1} inited
+18:41:43.735 [main] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-8080"]
+18:41:43.784 [main] INFO  c.d.DormitoryManagementApplication - [logStarted,61] - Started DormitoryManagementApplication in 3.776 seconds (JVM running for 4.274)
+18:41:44.191 [RMI TCP Connection(5)-169.254.83.107] INFO  o.a.c.c.C.[.[.[/] - [log,173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+18:42:58.391 [SpringApplicationShutdownHook] INFO  c.a.d.p.DruidDataSource - [close,1823] - {dataSource-1} closed

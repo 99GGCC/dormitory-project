@@ -1,0 +1,75 @@
+spring:
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+  lifecycle:
+    # 设置缓冲期，最大等待时间
+    timeout-per-shutdown-phase: 15s
+  servlet:
+    multipart:
+      max-file-size: 50MB      # 单个文件大小
+      max-request-size: 100MB  # 总上传的数据大小
+  # 数据库配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://175.178.33.84:3306/dormitory_management?useUniode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: dormitory_management
+    password: dormitory_management
+    tomcat:
+      max-active: 20
+      min-idle: 0
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-while-idle: true
+  # redis配置
+  redis:
+    database: 1
+    host: 175.178.33.84
+    port: 6379
+    password: rootZSL
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 50
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 5
+
+# mybatis-plus配置
+mybatis-plus:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.dormitory
+  configuration:
+    # 是否开启自动驼峰命名规则映射:从数据库列名到Java属性驼峰命名的类似映射
+    map-underscore-to-camel-case: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleteFlag # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: saToken
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
