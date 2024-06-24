@@ -11,6 +11,26 @@ public class Constant {
     }
 
     /**
+     * 消息编码CODE
+     */
+    public static final String CODE = "code";
+
+    /**
+     * 验证码图片值
+     */
+    public static final String CODE_VALUE = "codeValue";
+
+    /**
+     * 5分钟秒数
+     */
+    public static final Integer FIVE_MINUTE = 300;
+
+    /**
+     * REDIS存储验证码头
+     */
+    public static final String SMS_CODE = "code:";
+
+    /**
      * 返回操作成功
      */
     public static final String SUCCESS = "操作成功!";
