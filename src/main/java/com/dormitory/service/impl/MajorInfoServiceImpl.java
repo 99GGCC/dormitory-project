@@ -63,7 +63,7 @@ public class MajorInfoServiceImpl extends ServiceImpl<MajorInfoMapper, MajorInfo
      * @return List<MajorInfoVO>
      */
     @Override
-    public List<MajorInfoVO> listByParam(MajorInfoQry qry) {
+    public List<MajorInfoVO> listByQry(MajorInfoQry qry) {
         List<MajorInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .like(StringUtils.isNotEmpty(qry.getMajorName()), MajorInfo::getMajorName, qry.getMajorName())
                 .list();

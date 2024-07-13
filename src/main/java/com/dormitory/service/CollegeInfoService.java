@@ -33,7 +33,7 @@ public interface CollegeInfoService extends IService<CollegeInfo> {
      * @param qry 查询Qry
      * @return List<CollegeInfoVO>
      */
-    List<CollegeInfoVO> listByParam(CollegeInfoQry qry);
+    List<CollegeInfoVO> listByQry(CollegeInfoQry qry);
 
     /**
      * 学院信息详情

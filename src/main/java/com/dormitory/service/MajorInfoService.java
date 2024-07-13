@@ -33,7 +33,7 @@ public interface MajorInfoService extends IService<MajorInfo> {
      * @param qry 查询Qry
      * @return List<MajorInfoVO>
      */
-    List<MajorInfoVO> listByParam(MajorInfoQry qry);
+    List<MajorInfoVO> listByQry(MajorInfoQry qry);
 
     /**
      * 专业信息详情

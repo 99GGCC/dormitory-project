@@ -38,7 +38,7 @@ public class StudentMajorInfoController {
     @ApiOperation("专业信息列表查询")
     @GetMapping("/list")
     public R<List<MajorInfoVO>> listByQry(MajorInfoQry qry) {
-        return R.success(majorInfoService.listByParam(qry));
+        return R.success(majorInfoService.listByQry(qry));
     }
 
     @ApiOperation("专业信息详情")

@@ -37,8 +37,8 @@ public class StudentCollegeInfoController {
 
     @ApiOperation("学院信息列表查询")
     @GetMapping("/list")
-    public R<List<CollegeInfoVO>> listByParam(CollegeInfoQry qry) {
-        return R.success(collegeInfoService.listByParam(qry));
+    public R<List<CollegeInfoVO>> listByQry(CollegeInfoQry qry) {
+        return R.success(collegeInfoService.listByQry(qry));
     }
 
     @ApiOperation("学院信息详情")

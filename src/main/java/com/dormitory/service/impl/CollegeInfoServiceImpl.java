@@ -61,7 +61,7 @@ public class CollegeInfoServiceImpl extends ServiceImpl<CollegeInfoMapper, Colle
      * @return List<CollegeInfoVO>
      */
     @Override
-    public List<CollegeInfoVO> listByParam(CollegeInfoQry qry) {
+    public List<CollegeInfoVO> listByQry(CollegeInfoQry qry) {
         List<CollegeInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .like(StringUtils.isNotEmpty(qry.getCollegeName()), CollegeInfo::getCollegeName, qry.getCollegeName())
                 .list();
