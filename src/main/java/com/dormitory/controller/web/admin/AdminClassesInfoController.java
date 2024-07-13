@@ -63,5 +63,12 @@ public class AdminClassesInfoController {
     public R<Boolean> del(@NotNull(message = "班级ID") @PathVariable Long classesId) {
         return R.success(classesInfoService.del(classesId));
     }
+
+    @ApiOperation("设置班级状态")
+    @PostMapping("/status/{classesId}")
+    public R<Boolean> status(@NotNull(message = "班级ID") @PathVariable Long classesId,
+                             @RequestParam Integer status) {
+        return R.success(classesInfoService.status(classesId, status));
+    }
 }
 

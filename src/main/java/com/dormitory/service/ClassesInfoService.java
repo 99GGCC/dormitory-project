@@ -1,11 +1,11 @@
 package com.dormitory.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.dormitory.controller.dto.ClassesInfoDTO;
 import com.dormitory.controller.qry.ClassesInfoQry;
 import com.dormitory.controller.vo.ClassesInfoVO;
 import com.dormitory.entity.ClassesInfo;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
@@ -66,4 +66,13 @@ public interface ClassesInfoService extends IService<ClassesInfo> {
      * @return Boolean
      */
     Boolean del(Long classesId);
+
+    /**
+     * 设置班级状态
+     *
+     * @param classesId 班级ID
+     * @param status    班级状态
+     * @return Boolean
+     */
+    Boolean status(Long classesId, Integer status);
 }

@@ -2,13 +2,14 @@ package com.dormitory.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.dormitory.common.ClassesStatusEnum;
 import com.dormitory.controller.dto.ClassesInfoDTO;
 import com.dormitory.controller.qry.ClassesInfoQry;
 import com.dormitory.controller.vo.ClassesInfoVO;
 import com.dormitory.entity.ClassesInfo;
-import com.dormitory.entity.MajorInfo;
 import com.dormitory.entity.SysStudent;
 import com.dormitory.exception.ServiceException;
 import com.dormitory.mapper.ClassesInfoMapper;
@@ -40,6 +41,7 @@ public class ClassesInfoServiceImpl extends ServiceImpl<ClassesInfoMapper, Class
      * 学生信息Mapper
      */
     private final SysStudentMapper sysStudentMapper;
+
     /**
      * 班级信息分页查询
      *
@@ -103,6 +105,8 @@ public class ClassesInfoServiceImpl extends ServiceImpl<ClassesInfoMapper, Class
         }
         // 复制班级信息实体
         ClassesInfo classesInfo = CopyUtils.classCopy(dto, ClassesInfo.class);
+        // 设置班级状态为正常
+        classesInfo.setClassesStatus(ClassesStatusEnum.NORMAL.getCode());
         // 保存班级信息，并返回结果
         return baseMapper.insert(classesInfo) > 0;
     }
@@ -150,5 +154,21 @@ public class ClassesInfoServiceImpl extends ServiceImpl<ClassesInfoMapper, Class
         }
         // 删除班级信息，并返回结果
         return baseMapper.deleteById(classesId) > 0;
+    }
+
+    /**
+     * 设置班级状态
+     *
+     * @param classesId 班级ID
+     * @param status    班级状态
+     * @return Boolean
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean status(Long classesId, Integer status) {
+        return new LambdaUpdateChainWrapper<>(baseMapper)
+                .eq(ClassesInfo::getClassesId, classesId)
+                .set(ClassesInfo::getClassesStatus, status)
+                .update();
     }
 }
