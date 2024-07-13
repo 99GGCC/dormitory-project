@@ -1,4 +1,4 @@
-package com.dormitory.controller;
+package com.dormitory.controller.web.admin;
 
 
 import com.dormitory.common.R;
@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/admin/admin")
 @Api(value = "SysAdminController", tags = {"管理员接口"})
 public class SysAdminController {
 
@@ -43,4 +43,3 @@ public class SysAdminController {
         return R.success(sysAdminService.login(loginDTO));
     }
 }
-

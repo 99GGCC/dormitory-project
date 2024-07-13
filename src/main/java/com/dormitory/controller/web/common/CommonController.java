@@ -1,4 +1,4 @@
-package com.dormitory.controller;
+package com.dormitory.controller.web.common;
 
 import com.alibaba.fastjson.JSON;
 import com.dormitory.common.Constant;

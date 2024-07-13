@@ -40,15 +40,45 @@ public class SwaggerConfig {
     private String active;
 
     @Bean
-    public Docket createApi() {
+    public Docket commonCreateApi() {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
-                .groupName("宿舍管理系统-接口文档")
+                .groupName("公共接口文档")
                 //是否开启 (true 开启  false隐藏。生产环境建议隐藏)
                 .enable("dev".equals(active))
                 .select()
                 //扫描的路径包,设置basePackage会将包下的所有被@Api标记类的所有方法作为api
-                .apis(RequestHandlerSelectors.basePackage("com.dormitory.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.dormitory.controller.web.common"))
+                //指定路径处理PathSelectors.any()代表所有的路径
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    @Bean
+    public Docket adminCreateApi() {
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .groupName("管理员接口文档")
+                //是否开启 (true 开启  false隐藏。生产环境建议隐藏)
+                .enable("dev".equals(active))
+                .select()
+                //扫描的路径包,设置basePackage会将包下的所有被@Api标记类的所有方法作为api
+                .apis(RequestHandlerSelectors.basePackage("com.dormitory.controller.web.admin"))
+                //指定路径处理PathSelectors.any()代表所有的路径
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    @Bean
+    public Docket studentCreateApi() {
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .groupName("学生接口文档")
+                //是否开启 (true 开启  false隐藏。生产环境建议隐藏)
+                .enable("dev".equals(active))
+                .select()
+                //扫描的路径包,设置basePackage会将包下的所有被@Api标记类的所有方法作为api
+                .apis(RequestHandlerSelectors.basePackage("com.dormitory.controller.web.student"))
                 //指定路径处理PathSelectors.any()代表所有的路径
                 .paths(PathSelectors.any())
                 .build();
