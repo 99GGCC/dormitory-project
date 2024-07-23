@@ -99,7 +99,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             this.strictUpdateFill(metaObject, "updateTime", Date.class, new Date());
             // 增加方法，防止更新时存在该字段不覆盖原值
             this.setFieldValByName("updateId", admin.getAdminId(), metaObject);
-            this.setFieldValByName("updateName", admin.getAdminId(), metaObject);
+            this.setFieldValByName("updateName", admin.getAdminName(), metaObject);
             this.setFieldValByName("updateTime", new Date(), metaObject);
         } else if (student != null){
             // 起始版本 3.3.0(推荐)

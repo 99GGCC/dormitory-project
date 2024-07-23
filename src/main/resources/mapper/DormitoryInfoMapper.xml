@@ -2,4 +2,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dormitory.mapper.DormitoryInfoMapper">
 
+    <resultMap id="dormitoryDetail" type="com.dormitory.controller.vo.DormitoryInfoVO">
+        <id property="dormitoryId" column="dormitory_id"/>
+        <result property="dormitoryName" column="dormitory_name"/>
+        <result property="buildingId" column="building_id"/>
+        <result property="buildingFloor" column="building_floor"/>
+        <result property="dormitoryStatus" column="dormitory_status"/>
+        <collection property="bedInfoList" javaType="com.dormitory.controller.vo.BedInfoVO">
+            <id property="bedId" column="bed_id"/>
+            <result property="bedName" column="bed_name"/>
+            <result property="bedStatus" column="bed_status"/>
+            <result property="useStudent" column="use_student"/>
+            <result property="studentId" column="student_id"/>
+            <result property="studentName" column="student_name"/>
+            <result property="studentNum" column="student_num"/>
+            <result property="studentPhone" column="student_phone"/>
+            <result property="studentSex" column="student_sex"/>
+            <result property="studentStatus" column="student_status"/>
+            <result property="classesId" column="classes_id"/>
+            <result property="classesName" column="classes_name"/>
+            <result property="classesStatus" column="classes_status"/>
+            <result property="majorId" column="major_id"/>
+            <result property="majorName" column="major_name"/>
+            <result property="collegeId" column="college_id"/>
+            <result property="collegeName" column="college_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="detail" resultType="com.dormitory.controller.vo.DormitoryInfoVO">
+        SELECT
+            di.dormitory_id,
+            di.dormitory_name,
+            di.building_id,
+            di.building_floor,
+            di.dormitory_status,
+            bi.bed_id,
+            bi.bed_name,
+            bi.bed_status,
+            bi.use_student,
+            ss.student_id,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_sex,
+            ss.student_status,
+            ci.classes_id,
+            ci.classes_name,
+            ci.classes_status,
+            mi.major_id,
+            mi.major_name,
+            cei.college_id,
+            cei.college_name
+        FROM
+            dormitory_info di
+                LEFT JOIN bed_info bi ON bi.delete_flag = 0 AND bi.dormitory_id = di.dormitory_id
+                LEFT JOIN sys_student ss ON ss.delete_flag = 0 AND ss.student_id = bi.use_student
+                LEFT JOIN classes_info ci ON ci.delete_flag = 0 AND ss.classes_id = ci.classes_id
+                LEFT JOIN major_info mi ON mi.delete_flag = 0 AND ci.major_id = mi.major_id
+                LEFT JOIN college_info cei ON cei.delete_flag = 0 AND mi.college_id = cei.college_id
+        WHERE
+            di.delete_flag = 0 AND di.dormitory_id = #{dormitoryId}
+        ORDER BY bi.bed_id ASC
+    </select>
 </mapper>

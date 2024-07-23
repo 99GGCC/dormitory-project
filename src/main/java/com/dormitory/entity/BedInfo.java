@@ -22,7 +22,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class BadInfo implements Serializable {
+public class BedInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,12 +30,12 @@ public class BadInfo implements Serializable {
      * 床位ID
      */
     @TableId
-    private Long badId;
+    private Long bedId;
 
     /**
      * 床位名称
      */
-    private String badName;
+    private String bedName;
 
     /**
      * 宿舍ID
@@ -45,7 +45,7 @@ public class BadInfo implements Serializable {
     /**
      * 床位状态：1、启用 0、禁用
      */
-    private Integer badStatus;
+    private Integer bedStatus;
 
     /**
      * 使用学生

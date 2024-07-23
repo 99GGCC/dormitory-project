@@ -1,6 +1,6 @@
 package com.dormitory.mapper;
 
-import com.dormitory.entity.BadInfo;
+import com.dormitory.entity.BedInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author XXX
  * @since 2024-06-21
  */
-public interface BadInfoMapper extends BaseMapper<BadInfo> {
+public interface BedInfoMapper extends BaseMapper<BedInfo> {
 
 }

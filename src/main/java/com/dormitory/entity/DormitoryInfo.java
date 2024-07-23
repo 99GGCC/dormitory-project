@@ -45,12 +45,17 @@ public class DormitoryInfo implements Serializable {
     /**
      * 楼层
      */
-    private String buildingFloor;
+    private Integer buildingFloor;
 
     /**
      * 宿舍状态：1、启用 0、禁用
      */
     private Integer dormitoryStatus;
+
+    /**
+     * 使用状态：1、已使用 0、未使用
+     */
+    private Integer useStatus;
 
     /**
      * 删除标志，0未删除 1删除

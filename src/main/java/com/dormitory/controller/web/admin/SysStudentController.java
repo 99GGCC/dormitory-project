@@ -1,6 +1,8 @@
-package com.dormitory.controller;
+package com.dormitory.controller.web.admin;
 
 
+import com.dormitory.service.SysStudentService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sys/student")
+@RequestMapping("/admin/student")
+@Api(value = "SysStudentController", tags = {"学生信息接口"})
 public class SysStudentController {
+
+    /**
+     * 学生信息Service
+     */
+    private final SysStudentService sysStudentService;
+
 
 }
 

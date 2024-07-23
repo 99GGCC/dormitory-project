@@ -38,9 +38,14 @@ public class BuildingInfo implements Serializable {
     private String buildingName;
 
     /**
+     * 楼栋简称
+     */
+    private String shortName;
+
+    /**
      * 楼层
      */
-    private String buildingFloor;
+    private Integer buildingFloor;
 
     /**
      * 楼栋类型1、男生宿舍 0、女生宿舍
