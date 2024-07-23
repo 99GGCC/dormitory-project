@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWra
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dormitory.common.BedStatusEnum;
+import com.dormitory.common.BooleanEnum;
 import com.dormitory.common.DormitoryStatusEnum;
 import com.dormitory.controller.dto.SetBedDTO;
 import com.dormitory.controller.qry.DormitoryInfoQry;
@@ -157,6 +158,7 @@ public class DormitoryInfoServiceImpl extends ServiceImpl<DormitoryInfoMapper, D
                                 .setDormitoryId(dormitoryId)
                                 .setBedStatus(BedStatusEnum.ENABLE.getCode())
                                 .setBedName((i + 1) + "号床")
+                                .setIsHead(BooleanEnum.FALSE.getCode())
                 );
             }
         });

@@ -2,4 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dormitory.mapper.RelocationRecordMapper">
 
+    <select id="pageByQry" resultType="com.dormitory.controller.vo.RelocationRecordVO">
+        SELECT
+            rr.relocation_id,
+            rr.relocation_time,
+            rr.relocation_type,
+            di.dormitory_id,
+            di.dormitory_name,
+            bi.bed_id,
+            bi.bed_name,
+            ss.student_id,
+            ss.student_name,
+            ss.student_num,
+            ci.classes_id,
+            ci.classes_name,
+            ci.classes_status,
+            mi.major_id,
+            mi.major_name,
+            cei.college_id,
+            cei.college_name
+        FROM
+            relocation_record rr
+        LEFT JOIN bed_info bi ON rr.bed_id = bi.bed_id
+        LEFT JOIN dormitory_info di ON rr.dormitory_id = di.dormitory_id
+        LEFT JOIN sys_student ss ON ss.student_id = bi.use_student
+        LEFT JOIN classes_info ci ON ss.classes_id = ci.classes_id
+        LEFT JOIN major_info mi ON ci.major_id = mi.major_id
+        LEFT JOIN college_info cei ON mi.college_id = cei.college_id
+        WHERE
+            rr.delete_flag = 0
+        <if test="qry.relocationType != null">
+            AND rr.relocation_type = #{qry.relocationType}
+        </if>
+        <if test="qry.studentName != '' and qry.studentName != null">
+            AND ss.student_name LIKE CONCAT('%', #{qry.studentName}, '%')
+        </if>
+        <if test="qry.studentNum != '' and qry.studentNum != null">
+            AND ss.student_num LIKE CONCAT('%', #{qry.studentNum}, '%')
+        </if>
+        <if test="qry.dormitoryName != '' and qry.dormitoryName != null">
+            AND di.dormitory_name LIKE CONCAT('%', #{qry.dormitoryName}, '%')
+        </if>
+        <if test="qry.classesName != '' and qry.classesName != null">
+            AND ci.classes_name LIKE CONCAT('%', #{qry.classesName}, '%')
+        </if>
+        ORDER BY rr.relocation_time DESC
+    </select>
 </mapper>

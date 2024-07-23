@@ -2,7 +2,9 @@ package com.dormitory.controller.web.admin;
 
 
 import com.dormitory.common.R;
+import com.dormitory.controller.dto.ArrangeBedDTO;
 import com.dormitory.controller.dto.BedInfoDTO;
+import com.dormitory.controller.dto.ReleaseBedDTO;
 import com.dormitory.service.BedInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +24,7 @@ import javax.validation.constraints.NotNull;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/bed/info")
+@RequestMapping("/admin/bed/info")
 @Api(value = "AdminBedInfoController", tags = {"床位信息接口"})
 public class AdminBedInfoController {
 
@@ -45,9 +47,23 @@ public class AdminBedInfoController {
     }
 
     @ApiOperation("删除床位信息")
-    @PostMapping("/del/{BedId}")
-    public R<Boolean> del(@NotNull(message = "床位ID") @PathVariable Long BedId) {
-        return R.success(bedInfoService.del(BedId));
+    @PostMapping("/del/{bedId}")
+    public R<Boolean> del(@NotNull(message = "床位ID") @PathVariable Long bedId) {
+        return R.success(bedInfoService.del(bedId));
     }
+
+    @ApiOperation("安排床位")
+    @PostMapping("/arrange")
+    public R<Boolean> arrange(@Valid @RequestBody ArrangeBedDTO dto) {
+        return R.success(bedInfoService.arrange(dto));
+    }
+
+    @ApiOperation("释放床位")
+    @PostMapping("/release")
+    public R<Boolean> release(@Valid @RequestBody ReleaseBedDTO dto) {
+        return R.success(bedInfoService.release(dto));
+    }
+
+
 }
 

@@ -8,10 +8,11 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
- * 床位信息VO
+ * 动迁记录VO
  * </p>
  *
  * @author XXX
@@ -20,46 +21,16 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "床位信息VO")
-public class BedInfoVO implements Serializable {
+@ApiModel(value = "动迁记录VO")
+public class RelocationRecordVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 床位ID
+     * 记录ID
      */
-    @ApiModelProperty("床位ID")
-    private Long bedId;
-
-    /**
-     * 床位名称
-     */
-    @ApiModelProperty("床位名称")
-    private String bedName;
-
-    /**
-     * 宿舍ID
-     */
-    @ApiModelProperty("宿舍ID")
-    private Long dormitoryId;
-
-    /**
-     * 床位状态：1、启用 0、禁用
-     */
-    @ApiModelProperty("床位状态：1、启用 0、禁用")
-    private Integer bedStatus;
-
-    /**
-     * 是否宿舍长
-     */
-    @ApiModelProperty("是否宿舍长")
-    private Integer isHead;
-
-    /**
-     * 使用学生
-     */
-    @ApiModelProperty("使用学生")
-    private Long useStudent;
+    @ApiModelProperty("记录ID")
+    private Long relocationId;
 
     /**
      * 学生ID
@@ -138,4 +109,54 @@ public class BedInfoVO implements Serializable {
      */
     @ApiModelProperty("学院名称")
     private String collegeName;
+
+    /**
+     * 宿舍ID
+     */
+    @ApiModelProperty("宿舍ID")
+    private Long dormitoryId;
+
+    /**
+     * 宿舍名称
+     */
+    @ApiModelProperty("宿舍名称")
+    private String dormitoryName;
+
+    /**
+     * 床位ID
+     */
+    @ApiModelProperty("床位ID")
+    private Long bedId;
+
+    /**
+     * 床位名称
+     */
+    @ApiModelProperty("床位名称")
+    private String bedName;
+
+    /**
+     * 床位状态：1、启用 0、禁用
+     */
+    @ApiModelProperty("床位状态：1、启用 0、禁用")
+    private Integer bedStatus;
+
+    /**
+     * 是否宿舍长
+     */
+    @ApiModelProperty("是否宿舍长")
+    private Integer isHead;
+
+    /**
+     * 记录时间
+     */
+    @ApiModelProperty("记录时间")
+    private Date relocationTime;
+
+    /**
+     * 动迁类型
+     */
+    @ApiModelProperty("动迁类型")
+    private Integer relocationType;
+
+
 }

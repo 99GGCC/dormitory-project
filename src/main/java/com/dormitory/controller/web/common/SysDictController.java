@@ -1,6 +1,7 @@
-package com.dormitory.controller;
+package com.dormitory.controller.web.common;
 
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sys/dict")
+@RequestMapping("/dict")
+@Api(value = "SysDictController", tags = {"字典接口"})
 public class SysDictController {
 
 }

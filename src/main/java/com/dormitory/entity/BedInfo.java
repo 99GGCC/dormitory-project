@@ -53,6 +53,11 @@ public class BedInfo implements Serializable {
     private Long useStudent;
 
     /**
+     * 是否宿舍长
+     */
+    private Integer isHead;
+
+    /**
      * 删除标志，0未删除 1删除
      */
     @TableField(fill = FieldFill.INSERT)

@@ -1,5 +1,8 @@
 package com.dormitory.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dormitory.controller.qry.RelocationRecordQry;
+import com.dormitory.controller.vo.RelocationRecordVO;
 import com.dormitory.entity.RelocationRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface RelocationRecordService extends IService<RelocationRecord> {
 
+    /**
+     * 动迁记录分页查询
+     *
+     * @param qry 查询Qry
+     * @return IPage<RelocationRecordVO>
+     */
+    IPage<RelocationRecordVO> pageByQry(RelocationRecordQry qry);
 }
