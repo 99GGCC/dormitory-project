@@ -225,7 +225,8 @@ public class ChangeApplyServiceImpl extends ServiceImpl<ChangeApplyMapper, Chang
         // 取消当前床位占用
         new LambdaUpdateChainWrapper<>(bedInfoMapper)
                 .eq(BedInfo::getBedId, changeApply.getBedId())
-                .set(BedInfo::getUseStudent, null);
+                .set(BedInfo::getUseStudent, null)
+                .update();
         // 占用新床位和新宿舍
         DormitoryInfo dormitoryInfo = dormitoryInfoMapper.selectById(changeApply.getInDormitoryId());
         // 判断宿舍是否使用

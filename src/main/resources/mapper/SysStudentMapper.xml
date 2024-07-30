@@ -40,4 +40,99 @@
         WHERE
             ss.delete_flag = 0 AND ss.student_id = #{studentId}
     </select>
+    <select id="detailById" resultType="com.dormitory.controller.vo.StudentVO">
+        SELECT
+            ss.student_id,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_email,
+            ss.student_salt,
+            ss.student_sex,
+            ss.classes_id,
+            ss.dormitory_id,
+            ss.bed_id,
+            ss.student_status,
+            cli.classes_name,
+            cli.classes_status,
+            mi.major_id,
+            mi.major_name,
+            ci.college_id,
+            ci.college_name,
+            bed.bed_name,
+            di.dormitory_name,
+            di.building_floor,
+            di.dormitory_status,
+            di.use_status,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name
+        FROM
+            sys_student ss
+                LEFT JOIN classes_info cli ON ss.classes_id = cli.classes_id
+                LEFT JOIN major_info mi ON cli.major_id = mi.major_id
+                LEFT JOIN college_info ci ON mi.college_id = ci.college_id
+                LEFT JOIN bed_info bed ON ss.bed_id = bed.bed_id
+                LEFT JOIN dormitory_info di ON ss.dormitory_id = di.dormitory_id
+                LEFT JOIN building_info bi ON di.building_id = bi.building_id
+        WHERE
+            ss.delete_flag = 0 AND ss.student_id = #{studentId}
+    </select>
+    <select id="pageByQry" resultType="com.dormitory.controller.vo.StudentVO">
+        SELECT
+            ss.student_id,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_email,
+            ss.student_salt,
+            ss.student_sex,
+            ss.classes_id,
+            ss.dormitory_id,
+            ss.bed_id,
+            ss.student_status,
+            cli.classes_name,
+            cli.classes_status,
+            mi.major_id,
+            mi.major_name,
+            ci.college_id,
+            ci.college_name,
+            bed.bed_name,
+            di.dormitory_name,
+            di.building_floor,
+            di.dormitory_status,
+            di.use_status,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name
+        FROM
+            sys_student ss
+                LEFT JOIN classes_info cli ON ss.classes_id = cli.classes_id
+                LEFT JOIN major_info mi ON cli.major_id = mi.major_id
+                LEFT JOIN college_info ci ON mi.college_id = ci.college_id
+                LEFT JOIN bed_info bed ON ss.bed_id = bed.bed_id
+                LEFT JOIN dormitory_info di ON ss.dormitory_id = di.dormitory_id
+                LEFT JOIN building_info bi ON di.building_id = bi.building_id
+        WHERE
+            ss.delete_flag = 0
+        <if test="qry.studentName != '' and qry.studentName != null">
+            AND ss.student_name LIKE CONCAT('%', #{qry.studentName}, '%')
+        </if>
+        <if test="qry.studentNum != '' and qry.studentNum != null">
+            AND ss.student_num LIKE CONCAT('%', #{qry.studentNum}, '%')
+        </if>
+        <if test="qry.classesId != null">
+            AND ss.classes_id = #{qry.classesId}
+        </if>
+        <if test="qry.majorId != null">
+            AND mi.major_id = #{qry.majorId}
+        </if>
+        <if test="qry.collegeId != null">
+            AND ci.college_id = #{qry.collegeId}
+        </if>
+        <if test="qry.studentStatus != null">
+            AND ss.student_status = #{qry.studentStatus}
+        </if>
+        ORDER BY ss.create_time DESC
+    </select>
 </mapper>

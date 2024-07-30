@@ -29,7 +29,11 @@ public enum RelocationTypeEnum {
     /**
      * 其他迁出
      */
-    OTHER_OUT(4, "其他迁出");
+    OTHER_OUT(4, "其他迁出"),
+    /**
+     * 其他迁入
+     */
+    OTHER_IN(5, "其他迁入");
 
     private final Integer code;
     private final String mess;

@@ -44,10 +44,10 @@
             AND ca.student_id = #{qry.studentId}
         </if>
         <if test="qry.studentName != '' and qry.studentName != null">
-            AND ss.student_name = CONCAT('%', #{qry.studentName}, '%')
+            AND ss.student_name LIKE CONCAT('%', #{qry.studentName}, '%')
         </if>
         <if test="qry.studentNum != '' and qry.studentNum != null">
-            AND ss.student_num = CONCAT('%', #{qry.studentNum}, '%')
+            AND ss.student_num LIKE CONCAT('%', #{qry.studentNum}, '%')
         </if>
         <if test="qry.applyStatus != null">
             AND ca.apply_status = #{qry.applyStatus}
