@@ -25,9 +25,9 @@ import javax.validation.Valid;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/admin")
-@Api(value = "SysAdminController", tags = {"管理员接口"})
-public class SysAdminController {
+@RequestMapping("/admin")
+@Api(value = "AdminController", tags = {"管理员信息接口"})
+public class AdminController {
 
     /**
      * 管理员Service

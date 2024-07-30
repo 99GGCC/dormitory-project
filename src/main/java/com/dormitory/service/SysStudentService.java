@@ -1,7 +1,9 @@
 package com.dormitory.service;
 
-import com.dormitory.entity.SysStudent;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.dormitory.controller.dto.StudentLoginDTO;
+import com.dormitory.controller.vo.StudentLoginVO;
+import com.dormitory.entity.SysStudent;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysStudentService extends IService<SysStudent> {
 
+    /**
+     * 学生登录
+     *
+     * @param loginDTO 学生登录DTO
+     * @return StudentLoginVO
+     */
+    StudentLoginVO login(StudentLoginDTO loginDTO);
 }

@@ -42,7 +42,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             admin = null;
         }
         try {
-            student = JSON.parseObject(String.valueOf(JSON.toJSON(StpUtil.getSession().get("student"))), SysStudent.class);
+            student = JSON.parseObject(String.valueOf(JSON.toJSON(StpStudentUtil.getSession().get("student"))), SysStudent.class);
         } catch (Exception e) {
             student = null;
         }
@@ -88,7 +88,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             admin = null;
         }
         try {
-            student = JSON.parseObject(String.valueOf(JSON.toJSON(StpUtil.getSession().get("student"))), SysStudent.class);
+            student = JSON.parseObject(String.valueOf(JSON.toJSON(StpStudentUtil.getSession().get("student"))), SysStudent.class);
         } catch (Exception e) {
             student = null;
         }

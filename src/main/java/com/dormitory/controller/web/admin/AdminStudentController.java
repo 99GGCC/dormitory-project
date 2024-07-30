@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/student")
-@Api(value = "SysStudentController", tags = {"学生信息接口"})
-public class SysStudentController {
+@Api(value = "AdminStudentController", tags = {"学生信息接口"})
+public class AdminStudentController {
 
     /**
      * 学生信息Service

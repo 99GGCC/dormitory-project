@@ -60,9 +60,10 @@ public class SaTokenConfigure implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 注册 Sa-Token 拦截器，打开注解式鉴权功能
-        registry.addInterceptor(new SaInterceptor(handle ->
-                SaRouter.match("/**", "/**/login", StpUtil::checkLogin)
-        )).addPathPatterns("/**").excludePathPatterns(exclude);
+        registry.addInterceptor(new SaInterceptor(handle -> {
+            SaRouter.match("/admin/**", "/admin/login", StpUtil::checkLogin);
+            SaRouter.match("/student/**", "/student/login", StpStudentUtil::checkLogin);
+        })).addPathPatterns("/**").excludePathPatterns(exclude);
     }
 
     /**

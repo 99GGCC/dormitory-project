@@ -2,4 +2,95 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dormitory.mapper.ChangeApplyMapper">
 
+    <select id="pageByQry" resultType="com.dormitory.controller.vo.ChangeApplyVO">
+        SELECT
+            ca.change_id,
+            ca.student_id,
+            ca.dormitory_id,
+            ca.bed_id,
+            ca.in_dormitory_id,
+            ca.in_bed_id,
+            ca.apply_time,
+            ca.apply_reason,
+            ca.apply_status,
+            ca.apply_result,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            bed.bed_name,
+            bed_in.bed_name AS in_bed_name,
+            di.dormitory_name,
+            di.building_floor,
+            di_in.dormitory_name AS in_dormitory_name,
+            di_in.building_floor AS in_building_floor,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name,
+            bi_in.building_id AS in_building_id,
+            bi_in.building_name AS in_building_name,
+            bi_in.short_name AS in_short_name
+        FROM
+            change_apply ca
+        INNER JOIN sys_student ss ON ca.student_id = ss.student_id
+        LEFT JOIN bed_info bed ON ca.bed_id = bed.bed_id
+        LEFT JOIN bed_info bed_in ON ca.in_bed_id = bed_in.bed_id
+        LEFT JOIN dormitory_info di ON ca.dormitory_id = di.dormitory_id
+        LEFT JOIN dormitory_info di_in ON ca.in_dormitory_id = di_in.dormitory_id
+        LEFT JOIN building_info bi ON di.building_id = bi.building_id
+        LEFT JOIN building_info bi_in ON di_in.building_id = bi_in.building_id
+        WHERE
+            ca.delete_flag = 0
+        <if test="qry.studentId != null">
+            AND ca.student_id = #{qry.studentId}
+        </if>
+        <if test="qry.studentName != '' and qry.studentName != null">
+            AND ss.student_name = CONCAT('%', #{qry.studentName}, '%')
+        </if>
+        <if test="qry.studentNum != '' and qry.studentNum != null">
+            AND ss.student_num = CONCAT('%', #{qry.studentNum}, '%')
+        </if>
+        <if test="qry.applyStatus != null">
+            AND ca.apply_status = #{qry.applyStatus}
+        </if>
+        ORDER BY ca.create_time DESC
+    </select>
+    <select id="detailById" resultType="com.dormitory.controller.vo.ChangeApplyVO">
+        SELECT
+            ca.change_id,
+            ca.student_id,
+            ca.dormitory_id,
+            ca.bed_id,
+            ca.in_dormitory_id,
+            ca.in_bed_id,
+            ca.apply_time,
+            ca.apply_reason,
+            ca.apply_status,
+            ca.apply_result,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            bed.bed_name,
+            bed_in.bed_name AS in_bed_name,
+            di.dormitory_name,
+            di.building_floor,
+            di_in.dormitory_name AS in_dormitory_name,
+            di_in.building_floor AS in_building_floor,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name,
+            bi_in.building_id AS in_building_id,
+            bi_in.building_name AS in_building_name,
+            bi_in.short_name AS in_short_name
+        FROM
+            change_apply ca
+                INNER JOIN sys_student ss ON ca.student_id = ss.student_id
+                LEFT JOIN bed_info bed ON ca.bed_id = bed.bed_id
+                LEFT JOIN bed_info bed_in ON ca.in_bed_id = bed_in.bed_id
+                LEFT JOIN dormitory_info di ON ca.dormitory_id = di.dormitory_id
+                LEFT JOIN dormitory_info di_in ON ca.in_dormitory_id = di_in.dormitory_id
+                LEFT JOIN building_info bi ON di.building_id = bi.building_id
+                LEFT JOIN building_info bi_in ON di_in.building_id = bi_in.building_id
+        WHERE
+            ca.delete_flag = 0 AND ca.change_id = #{changeId}
+    </select>
 </mapper>

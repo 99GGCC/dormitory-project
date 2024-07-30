@@ -27,10 +27,10 @@ public class ChangeApply implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 记录ID
+     * 申请ID
      */
     @TableId
-    private Long relocationId;
+    private Long changeId;
 
     /**
      * 学生ID
@@ -48,14 +48,34 @@ public class ChangeApply implements Serializable {
     private Long bedId;
 
     /**
-     * 记录时间
+     * 换入宿舍ID
      */
-    private Date relocationTime;
+    private Long inDormitoryId;
 
     /**
-     * 动迁类型
+     * 换入床位ID
      */
-    private Integer relocationType;
+    private Long inBedId;
+
+    /**
+     * 申请时间
+     */
+    private Date applyTime;
+
+    /**
+     * 申请原因
+     */
+    private String applyReason;
+
+    /**
+     * 申请状态
+     */
+    private Integer applyStatus;
+
+    /**
+     * 申请结果
+     */
+    private String applyResult;
 
     /**
      * 删除标志，0未删除 1删除
