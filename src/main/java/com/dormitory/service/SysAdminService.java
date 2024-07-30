@@ -2,7 +2,9 @@ package com.dormitory.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dormitory.controller.dto.AdminLoginDTO;
+import com.dormitory.controller.dto.ChangePasswordDTO;
 import com.dormitory.controller.vo.AdminLoginVO;
+import com.dormitory.controller.vo.AdminVO;
 import com.dormitory.entity.SysAdmin;
 
 /**
@@ -22,4 +24,19 @@ public interface SysAdminService extends IService<SysAdmin> {
      * @return AdminLoginVO
      */
     AdminLoginVO login(AdminLoginDTO loginDTO);
+
+    /**
+     * 修改登录密码
+     *
+     * @param changeDTO 修改密码DTO
+     * @return Boolean
+     */
+    Boolean changePassword(ChangePasswordDTO changeDTO);
+
+    /**
+     * 管理员个人信息
+     *
+     * @return AdminVO
+     */
+    AdminVO mine();
 }

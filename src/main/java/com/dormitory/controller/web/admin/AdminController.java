@@ -3,15 +3,14 @@ package com.dormitory.controller.web.admin;
 
 import com.dormitory.common.R;
 import com.dormitory.controller.dto.AdminLoginDTO;
+import com.dormitory.controller.dto.ChangePasswordDTO;
 import com.dormitory.controller.vo.AdminLoginVO;
+import com.dormitory.controller.vo.AdminVO;
 import com.dormitory.service.SysAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -41,5 +40,23 @@ public class AdminController {
     @PostMapping("/login")
     public R<AdminLoginVO> login(@RequestBody @Valid AdminLoginDTO loginDTO) {
         return R.success(sysAdminService.login(loginDTO));
+    }
+
+    /**
+     * 个人信息
+     */
+    @ApiOperation("个人信息")
+    @GetMapping("/mine")
+    public R<AdminVO> mine() {
+        return R.success(sysAdminService.mine());
+    }
+
+    /**
+     * 修改登录密码
+     */
+    @ApiOperation("修改登录密码")
+    @PostMapping("/change/password")
+    public R<Boolean> changePassword(@RequestBody @Valid ChangePasswordDTO changeDTO) {
+        return R.success(sysAdminService.changePassword(changeDTO));
     }
 }

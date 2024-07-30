@@ -2,4 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dormitory.mapper.SysStudentMapper">
 
+    <select id="selectByStudentId" resultType="com.dormitory.controller.vo.StudentVO">
+        SELECT
+            ss.student_id,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_email,
+            ss.student_salt,
+            ss.student_sex,
+            ss.classes_id,
+            ss.dormitory_id,
+            ss.bed_id,
+            ss.student_status,
+            cli.classes_name,
+            cli.classes_status,
+            mi.major_id,
+            mi.major_name,
+            ci.college_id,
+            ci.college_name,
+            bed.bed_name,
+            di.dormitory_name,
+            di.building_floor,
+            di.dormitory_status,
+            di.use_status,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name
+        FROM
+            sys_student ss
+        LEFT JOIN classes_info cli ON ss.classes_id = cli.classes_id
+        LEFT JOIN major_info mi ON cli.major_id = mi.major_id
+        LEFT JOIN college_info ci ON mi.college_id = ci.college_id
+        LEFT JOIN bed_info bed ON ss.bed_id = bed.bed_id
+        LEFT JOIN dormitory_info di ON ss.dormitory_id = di.dormitory_id
+        LEFT JOIN building_info bi ON di.building_id = bi.building_id
+        WHERE
+            ss.delete_flag = 0 AND ss.student_id = #{studentId}
+    </select>
 </mapper>

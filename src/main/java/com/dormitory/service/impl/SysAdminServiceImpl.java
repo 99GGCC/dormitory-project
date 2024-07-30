@@ -3,18 +3,23 @@ package com.dormitory.service.impl;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dormitory.common.Constant;
 import com.dormitory.controller.dto.AdminLoginDTO;
+import com.dormitory.controller.dto.ChangePasswordDTO;
 import com.dormitory.controller.vo.AdminLoginVO;
+import com.dormitory.controller.vo.AdminVO;
 import com.dormitory.entity.SysAdmin;
 import com.dormitory.exception.ServiceException;
 import com.dormitory.mapper.SysAdminMapper;
 import com.dormitory.service.SysAdminService;
+import com.dormitory.utils.CopyUtils;
 import com.dormitory.utils.RedisUtil;
 import com.dormitory.utils.SaltUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -65,6 +70,45 @@ public class SysAdminServiceImpl extends ServiceImpl<SysAdminMapper, SysAdmin> i
         } else {
             throw new ServiceException("验证码错误!");
         }
+    }
+
+    /**
+     * 修改登录密码
+     *
+     * @param changeDTO 修改密码DTO
+     * @return Boolean
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean changePassword(ChangePasswordDTO changeDTO) {
+        long adminId = StpUtil.getLoginIdAsLong();
+        SysAdmin admin = baseMapper.selectById(adminId);
+        // 密码校验
+        if (SaltUtils.verify(changeDTO.getOldPass(), admin.getAdminSalt(), admin.getAdminPass())) {
+            // 加密新密码并保存数据库
+            new LambdaUpdateChainWrapper<>(baseMapper)
+                    .eq(SysAdmin::getAdminId, adminId)
+                    .set(SysAdmin::getAdminPass, SaltUtils.md5Password(changeDTO.getNewPass(), admin.getAdminSalt()))
+                    .update();
+            // 登录失效
+            StpUtil.logout();
+            // 返回修改成功
+            return true;
+        } else {
+            // 如果密码错误，返回消息
+            throw new ServiceException("旧登录密码错误!");
+        }
+    }
+
+    /**
+     * 管理员个人信息
+     *
+     * @return AdminVO
+     */
+    @Override
+    public AdminVO mine() {
+        SysAdmin admin = baseMapper.selectById(StpUtil.getLoginIdAsLong());
+        return CopyUtils.classCopy(admin, AdminVO.class);
     }
 
     /**

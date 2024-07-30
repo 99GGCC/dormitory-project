@@ -1,7 +1,9 @@
 package com.dormitory.mapper;
 
-import com.dormitory.entity.SysStudent;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.dormitory.controller.vo.StudentVO;
+import com.dormitory.entity.SysStudent;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +15,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysStudentMapper extends BaseMapper<SysStudent> {
 
+    /**
+     * 学生个人信息
+     *
+     * @param studentId 学生ID
+     * @return StudentVO
+     */
+    StudentVO selectByStudentId(@Param("studentId") Long studentId);
 }

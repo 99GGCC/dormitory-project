@@ -2,11 +2,15 @@ package com.dormitory.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dormitory.common.Constant;
 import com.dormitory.config.StpStudentUtil;
+import com.dormitory.controller.dto.ChangePasswordDTO;
 import com.dormitory.controller.dto.StudentLoginDTO;
+import com.dormitory.controller.dto.StudentMineDTO;
 import com.dormitory.controller.vo.StudentLoginVO;
+import com.dormitory.controller.vo.StudentVO;
 import com.dormitory.entity.SysStudent;
 import com.dormitory.exception.ServiceException;
 import com.dormitory.mapper.SysStudentMapper;
@@ -16,6 +20,7 @@ import com.dormitory.utils.RedisUtil;
 import com.dormitory.utils.SaltUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -65,6 +70,61 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
             }
         } else {
             throw new ServiceException("验证码错误!");
+        }
+    }
+
+    /**
+     * 学生个人信息
+     *
+     * @return StudentVO
+     */
+    @Override
+    public StudentVO mine() {
+        return baseMapper.selectByStudentId(StpStudentUtil.getLoginIdAsLong());
+    }
+
+    /**
+     * 修改个人信息
+     *
+     * @param mineDTO 个人信息DTO
+     * @return Boolean
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean editMine(StudentMineDTO mineDTO) {
+        // 修改个人信息（手机号码、邮箱）
+        return new LambdaUpdateChainWrapper<>(baseMapper)
+                .eq(SysStudent::getStudentId, StpStudentUtil.getLoginIdAsLong())
+                .set(SysStudent::getStudentPhone, mineDTO.getStudentPhone())
+                .set(SysStudent::getStudentEmail, mineDTO.getStudentEmail())
+                .update();
+    }
+
+    /**
+     * 修改登录密码
+     *
+     * @param changeDTO 修改密码DTO
+     * @return Boolean
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean changePassword(ChangePasswordDTO changeDTO) {
+        long studentId = StpStudentUtil.getLoginIdAsLong();
+        SysStudent student = baseMapper.selectById(studentId);
+        // 密码校验
+        if (SaltUtils.verify(changeDTO.getOldPass(), student.getStudentSalt(), student.getStudentPass())) {
+            // 加密新密码并保存数据库
+            new LambdaUpdateChainWrapper<>(baseMapper)
+                    .eq(SysStudent::getStudentId, studentId)
+                    .set(SysStudent::getStudentPass, SaltUtils.md5Password(changeDTO.getNewPass(), student.getStudentSalt()))
+                    .update();
+            // 登录失效
+            StpStudentUtil.logout();
+            // 返回修改成功
+            return true;
+        } else {
+            // 如果密码错误，返回消息
+            throw new ServiceException("旧登录密码错误!");
         }
     }
 
