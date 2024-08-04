@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dormitory.mapper.SysRoleMenuMapper">
+
+    <select id="listByRoleId" resultType="com.dormitory.controller.vo.RoleMenuVO">
+        SELECT
+            sm.menu_id,
+            sm.menu_name,
+            sm.menu_url,
+            sm.menu_path,
+            sm.menu_flag,
+            sm.menu_parent,
+            sm.menu_type,
+            sm.menu_sort,
+            sm.menu_icon,
+            srm1.role_menu_id,
+            srm1.role_id
+        FROM
+            sys_menu sm
+                LEFT JOIN (
+                SELECT srm.role_menu_id, srm.role_id, srm.menu_id FROM sys_role_menu srm WHERE delete_flag = 0 AND srm.role_id = #{roleId}
+            ) srm1 ON sm.menu_id = srm1.menu_id
+        WHERE
+            sm.delete_flag = 0
+        ORDER BY sm.menu_id ASC
+    </select>
+</mapper>

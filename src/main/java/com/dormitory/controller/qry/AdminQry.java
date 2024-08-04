@@ -1,5 +1,6 @@
-package com.dormitory.controller.vo;
+package com.dormitory.controller.qry;
 
+import com.dormitory.common.Base;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,28 +9,19 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-
 /**
- * <p>
- * 管理员VO
- * </p>
+ * 管理员信息Qry
  *
  * @author XXX
- * @since 2024-06-21
+ * @since 2024-05-07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value = "管理员VO")
-public class AdminVO implements Serializable {
+@ApiModel(value = "管理员信息Qry")
+public class AdminQry extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 管理员ID
-     */
-    @ApiModelProperty("管理员ID")
-    private Long adminId;
 
     /**
      * 管理员名称
@@ -48,16 +40,4 @@ public class AdminVO implements Serializable {
      */
     @ApiModelProperty("角色ID")
     private Long roleId;
-
-    /**
-     * 角色名称
-     */
-    @ApiModelProperty("角色名称")
-    private String roleName;
-
-    /**
-     * 角色标识
-     */
-    @ApiModelProperty("角色标识")
-    private String roleFlag;
 }

@@ -121,4 +121,9 @@ public class Constant {
     public static final Integer STATUS_FALSE = 0;
     public static final Integer STATUS_TRUE = 1;
 
+    /**
+     * LONG类型0
+     */
+    public static final Long LONG_ZERO = 0L;
+
 }
