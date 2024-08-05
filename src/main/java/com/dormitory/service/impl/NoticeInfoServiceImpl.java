@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -88,6 +89,8 @@ public class NoticeInfoServiceImpl extends ServiceImpl<NoticeInfoMapper, NoticeI
         }
         // 复制公告信息实体
         NoticeInfo noticeInfo = CopyUtils.classCopy(dto, NoticeInfo.class);
+        // 设置公告时间
+        noticeInfo.setNoticeTime(new Date());
         // 保存公告信息，并返回结果
         return baseMapper.insert(noticeInfo) > 0;
     }
