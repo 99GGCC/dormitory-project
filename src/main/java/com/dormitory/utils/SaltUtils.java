@@ -5,7 +5,7 @@ import java.util.Base64;
 import java.util.UUID;
 
 /**
- * 盐加密
+ * 盐加密工具类
  *
  * @author XXX
  * @since 2024-05-07

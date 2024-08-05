@@ -19,16 +19,19 @@ public class AdminLoginVO {
     /**
      * 管理员ID
      */
+    @ApiModelProperty("管理员ID")
     private Long adminId;
 
     /**
      * 管理员名称
      */
+    @ApiModelProperty("管理员名称")
     private String adminName;
 
     /**
      * 手机号码
      */
+    @ApiModelProperty("手机号码")
     private String adminPhone;
 
     /**

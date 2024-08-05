@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * 验证码生成
+ * 验证码生成工具类
  *
  * @author XXX
  */

@@ -20,6 +20,7 @@ import com.dormitory.exception.ServiceException;
 import com.dormitory.mapper.*;
 import com.dormitory.service.SysStudentService;
 import com.dormitory.utils.CopyUtils;
+import com.dormitory.utils.IdUtils;
 import com.dormitory.utils.RedisUtil;
 import com.dormitory.utils.SaltUtils;
 import lombok.RequiredArgsConstructor;
@@ -108,6 +109,8 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
         }
         // 生成学生类
         SysStudent student = CopyUtils.classCopy(dto, SysStudent.class);
+        // 预生成学生ID
+        student.setStudentId(IdUtils.getLongId());
         // 设置加密盐
         student.setStudentSalt(SaltUtils.createSalt());
         // 设置初始密码为学号
@@ -327,6 +330,11 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
                     .set(BedInfo::getUseStudent, student.getStudentId())
                     .set(BedInfo::getIsHead, BooleanEnum.TRUE.getCode())
                     .update();
+            // 更新宿舍状态为已使用
+            new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                    .eq(DormitoryInfo::getDormitoryId, dormitoryInfo.getDormitoryId())
+                    .set(DormitoryInfo::getUseStatus, UseStatusEnum.USE.getCode())
+                    .update();
         }
         // 记录动迁记录
         RelocationRecord inRelocationRecord = new RelocationRecord()
@@ -465,6 +473,11 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
                     .eq(BedInfo::getBedId, student.getBedId())
                     .set(BedInfo::getUseStudent, student.getStudentId())
                     .set(BedInfo::getIsHead, BooleanEnum.TRUE.getCode())
+                    .update();
+            // 更新宿舍状态为已使用
+            new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                    .eq(DormitoryInfo::getDormitoryId, dormitoryInfo.getDormitoryId())
+                    .set(DormitoryInfo::getUseStatus, UseStatusEnum.USE.getCode())
                     .update();
         }
         // 更新学生信息中的床位信息

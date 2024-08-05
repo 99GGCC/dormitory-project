@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 工具类
+ * 日期工具类
  *
  * @author XXX
  */

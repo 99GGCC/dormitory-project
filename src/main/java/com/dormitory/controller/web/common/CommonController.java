@@ -58,19 +58,6 @@ public class CommonController {
     @Value("${base.img}")
     private String baseImg;
 
-    /**
-     * 公告Service
-     */
-    private final NoticeInfoService noticeInfoService;
-
-    @ApiOperation("公告分页查询")
-    @GetMapping("/page")
-    public R<Boolean> page() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("notice_title", "测试");
-        noticeInfoService.removeByMap(map);
-        return R.success();
-    }
 
     @GetMapping(value = "/getImageCode")
     @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码")

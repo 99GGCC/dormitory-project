@@ -53,7 +53,7 @@ public class Base implements Serializable {
             this.page = 1;
         }
         if (this.limit == null || this.limit <= Constant.INTEGER_ZERO) {
-            this.limit = 15;
+            this.limit = 10;
         }
         this.start = (this.page - Constant.INTEGER_ONE) * this.limit;
         this.end = this.start + this.limit;

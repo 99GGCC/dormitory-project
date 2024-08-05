@@ -9,6 +9,7 @@ import com.dormitory.service.BedInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -40,10 +41,10 @@ public class AdminBedInfoController {
     }
 
     @ApiOperation("编辑床位信息")
-    @PostMapping("/edit/{BedId}")
-    public R<Boolean> edit(@NotNull(message = "床位ID") @PathVariable Long BedId,
+    @PostMapping("/edit/{bedId}")
+    public R<Boolean> edit(@NotNull(message = "床位ID") @PathVariable Long bedId,
                            @RequestBody @Valid BedInfoDTO dto) {
-        return R.success(bedInfoService.edit(BedId, dto));
+        return R.success(bedInfoService.edit(bedId, dto));
     }
 
     @ApiOperation("删除床位信息")

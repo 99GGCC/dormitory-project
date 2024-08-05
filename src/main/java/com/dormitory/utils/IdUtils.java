@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 工具类
+ * ID生成工具类
  *
  * @author XXX
  * @since 2024-05-07

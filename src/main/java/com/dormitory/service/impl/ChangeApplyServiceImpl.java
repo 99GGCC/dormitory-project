@@ -206,6 +206,7 @@ public class ChangeApplyServiceImpl extends ServiceImpl<ChangeApplyMapper, Chang
             List<BedInfo> list = new LambdaQueryChainWrapper<>(bedInfoMapper)
                     .eq(BedInfo::getDormitoryId, changeApply.getDormitoryId())
                     .ne(BedInfo::getBedId, bedInfo.getBedId())
+                    .isNotNull(BedInfo::getUseStudent)
                     .list();
             // 如果宿舍里还有其他学生
             if (!CollectionUtils.isEmpty(list)) {
@@ -243,6 +244,11 @@ public class ChangeApplyServiceImpl extends ServiceImpl<ChangeApplyMapper, Chang
                     .eq(BedInfo::getBedId, changeApply.getInBedId())
                     .set(BedInfo::getUseStudent, changeApply.getStudentId())
                     .set(BedInfo::getIsHead, BooleanEnum.TRUE.getCode())
+                    .update();
+            // 更新宿舍状态为已使用
+            new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                    .eq(DormitoryInfo::getDormitoryId, dormitoryInfo.getDormitoryId())
+                    .set(DormitoryInfo::getUseStatus, UseStatusEnum.USE.getCode())
                     .update();
         }
         // 更新学生信息中的床位信息
