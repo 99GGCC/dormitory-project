@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -39,6 +40,12 @@ public class AdminBuildingInfoController {
     @GetMapping("/page")
     public R<IPage<BuildingInfoVO>> pageByQry(BuildingInfoQry qry) {
         return R.success(buildingInfoService.pageByQry(qry));
+    }
+
+    @ApiOperation("楼栋信息列表查询")
+    @GetMapping("/list")
+    public R<List<BuildingInfoVO>> listByQry(BuildingInfoQry qry) {
+        return R.success(buildingInfoService.listByQry(qry));
     }
 
     @ApiOperation("楼栋信息详情")

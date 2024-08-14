@@ -42,6 +42,12 @@ public class AdminDormitoryInfoController {
         return R.success(dormitoryInfoService.pageByQry(qry));
     }
 
+    @ApiOperation("宿舍信息列表查询")
+    @GetMapping("/list")
+    public R<List<DormitoryInfoVO>> listByQry(DormitoryInfoQry qry) {
+        return R.success(dormitoryInfoService.listByQry(qry));
+    }
+
     @ApiOperation("宿舍信息楼层列表查询")
     @GetMapping("/list/{buildingId}")
     public R<Map<Integer, List<DormitoryInfoVO>>> listByBuildingId(@PathVariable String buildingId) {

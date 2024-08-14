@@ -63,6 +63,22 @@ public class BuildingInfoServiceImpl extends ServiceImpl<BuildingInfoMapper, Bui
     }
 
     /**
+     * 楼栋信息列表查询
+     *
+     * @param qry 查询Qry
+     * @return List<BuildingInfoVO>
+     */
+    @Override
+    public List<BuildingInfoVO> listByQry(BuildingInfoQry qry) {
+        List<BuildingInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
+                .like(StringUtils.isNotEmpty(qry.getBuildingName()), BuildingInfo::getBuildingName, qry.getBuildingName())
+                .eq(ObjectUtils.isNotEmpty(qry.getBuildingType()), BuildingInfo::getBuildingType, qry.getBuildingType())
+                .like(StringUtils.isNotEmpty(qry.getBuildingAdmin()), BuildingInfo::getBuildingAdmin, qry.getBuildingAdmin())
+                .list();
+        return CopyUtils.classCopyList(list, BuildingInfoVO.class);
+    }
+
+    /**
      * 楼栋信息详情
      *
      * @param buildingId 楼栋ID

@@ -7,6 +7,8 @@ import com.dormitory.controller.qry.BuildingInfoQry;
 import com.dormitory.controller.vo.BuildingInfoVO;
 import com.dormitory.entity.BuildingInfo;
 
+import java.util.List;
+
 /**
  * <p>
  * 楼栋信息表 服务类
@@ -24,6 +26,14 @@ public interface BuildingInfoService extends IService<BuildingInfo> {
      * @return IPage<BuildingInfoVO>
      */
     IPage<BuildingInfoVO> pageByQry(BuildingInfoQry qry);
+
+    /**
+     * 楼栋信息列表查询
+     *
+     * @param qry 查询Qry
+     * @return List<BuildingInfoVO>
+     */
+    List<BuildingInfoVO> listByQry(BuildingInfoQry qry);
 
     /**
      * 楼栋信息详情

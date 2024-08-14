@@ -29,6 +29,14 @@ public interface DormitoryInfoService extends IService<DormitoryInfo> {
     IPage<DormitoryInfoVO> pageByQry(DormitoryInfoQry qry);
 
     /**
+     * 宿舍信息列表查询
+     *
+     * @param qry 查询Qry
+     * @return List<DormitoryInfoVO>
+     */
+    List<DormitoryInfoVO> listByQry(DormitoryInfoQry qry);
+
+    /**
      * 宿舍信息楼层列表查询
      *
      * @param buildingId 楼栋ID

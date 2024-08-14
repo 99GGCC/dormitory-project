@@ -68,6 +68,24 @@ public class DormitoryInfoServiceImpl extends ServiceImpl<DormitoryInfoMapper, D
     }
 
     /**
+     * 宿舍信息列表查询
+     *
+     * @param qry 查询Qry
+     * @return List<DormitoryInfoVO>
+     */
+    @Override
+    public List<DormitoryInfoVO> listByQry(DormitoryInfoQry qry) {
+        List<DormitoryInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
+                .like(StringUtils.isNotEmpty(qry.getDormitoryName()), DormitoryInfo::getDormitoryName, qry.getDormitoryName())
+                .eq(ObjectUtils.isNotEmpty(qry.getBuildingId()), DormitoryInfo::getBuildingId, qry.getBuildingId())
+                .eq(ObjectUtils.isNotEmpty(qry.getBuildingFloor()), DormitoryInfo::getBuildingFloor, qry.getBuildingFloor())
+                .eq(ObjectUtils.isNotEmpty(qry.getDormitoryStatus()), DormitoryInfo::getDormitoryStatus, qry.getDormitoryStatus())
+                .eq(ObjectUtils.isNotEmpty(qry.getUseStatus()), DormitoryInfo::getUseStatus, qry.getUseStatus())
+                .list();
+        return CopyUtils.classCopyList(list, DormitoryInfoVO.class);
+    }
+
+    /**
      * 宿舍信息楼层列表查询
      *
      * @param buildingId 楼栋ID
