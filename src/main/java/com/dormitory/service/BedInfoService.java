@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.dormitory.controller.dto.ArrangeBedDTO;
 import com.dormitory.controller.dto.BedInfoDTO;
 import com.dormitory.controller.dto.ReleaseBedDTO;
+import com.dormitory.controller.qry.BedInfoQry;
+import com.dormitory.controller.vo.BedInfoVO;
 import com.dormitory.entity.BedInfo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -15,6 +19,14 @@ import com.dormitory.entity.BedInfo;
  * @since 2024-06-21
  */
 public interface BedInfoService extends IService<BedInfo> {
+
+    /**
+     * 床位信息列表查询
+     *
+     * @param qry 查询Qry
+     * @return List<BedInfoVO>·
+     */
+    List<BedInfoVO> listByQry(BedInfoQry qry);
 
     /**
      * 新增床位信息

@@ -5,15 +5,17 @@ import com.dormitory.common.R;
 import com.dormitory.controller.dto.ArrangeBedDTO;
 import com.dormitory.controller.dto.BedInfoDTO;
 import com.dormitory.controller.dto.ReleaseBedDTO;
+import com.dormitory.controller.qry.BedInfoQry;
+import com.dormitory.controller.vo.BedInfoVO;
 import com.dormitory.service.BedInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +35,12 @@ public class AdminBedInfoController {
      * 床位信息Service
      */
     private final BedInfoService bedInfoService;
+
+    @ApiOperation("床位信息列表查询")
+    @GetMapping("/list")
+    public R<List<BedInfoVO>> listByQry(BedInfoQry qry) {
+        return R.success(bedInfoService.listByQry(qry));
+    }
 
     @ApiOperation("新增床位信息")
     @PostMapping("/add")

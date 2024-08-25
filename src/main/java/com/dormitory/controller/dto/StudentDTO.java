@@ -77,7 +77,7 @@ public class StudentDTO implements Serializable {
     /**
      * 班级ID
      */
-    @NotBlank(message = "班级ID")
+    @NotNull(message = "班级ID")
     @ApiModelProperty("班级ID")
     private Long classesId;
 }

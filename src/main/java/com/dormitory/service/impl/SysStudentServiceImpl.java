@@ -104,7 +104,7 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
         List<SysStudent> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .eq(SysStudent::getStudentNum, dto.getStudentNum())
                 .list();
-        if (CollectionUtils.isEmpty(list)) {
+        if (!CollectionUtils.isEmpty(list)) {
             throw new ServiceException("学生已存在，请勿重复添加!");
         }
         // 生成学生类

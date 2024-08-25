@@ -10,6 +10,8 @@ import com.dormitory.common.RelocationTypeEnum;
 import com.dormitory.controller.dto.ArrangeBedDTO;
 import com.dormitory.controller.dto.BedInfoDTO;
 import com.dormitory.controller.dto.ReleaseBedDTO;
+import com.dormitory.controller.qry.BedInfoQry;
+import com.dormitory.controller.vo.BedInfoVO;
 import com.dormitory.entity.BedInfo;
 import com.dormitory.entity.ClassesInfo;
 import com.dormitory.entity.RelocationRecord;
@@ -56,6 +58,17 @@ public class BedInfoServiceImpl extends ServiceImpl<BedInfoMapper, BedInfo> impl
      * 动迁记录Mapper
      */
     private final RelocationRecordMapper relocationRecordMapper;
+
+    /**
+     * 床位信息列表查询
+     *
+     * @param qry 查询Qry
+     * @return List<BedInfoVO>·
+     */
+    @Override
+    public List<BedInfoVO> listByQry(BedInfoQry qry) {
+        return baseMapper.listByQry(qry);
+    }
 
     /**
      * 新增床位信息
