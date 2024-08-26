@@ -3,7 +3,7 @@ package com.dormitory.common;
 import lombok.Getter;
 
 /**
- * 学生状态状态枚举
+ * 学生状态枚举
  *
  * @author XXX
  * @since 2023-07-13

@@ -126,4 +126,10 @@ public class Constant {
      */
     public static final Long LONG_ZERO = 0L;
 
+
+    /**
+     * 字典缓存
+     */
+    public static final String DICT_CACHE = "dict_code";
+
 }
