@@ -3,24 +3,15 @@ package com.dormitory.service.impl;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.dormitory.common.BedStatusEnum;
-import com.dormitory.common.BooleanEnum;
-import com.dormitory.common.ClassesStatusEnum;
-import com.dormitory.common.RelocationTypeEnum;
+import com.dormitory.common.*;
 import com.dormitory.controller.dto.ArrangeBedDTO;
 import com.dormitory.controller.dto.BedInfoDTO;
 import com.dormitory.controller.dto.ReleaseBedDTO;
 import com.dormitory.controller.qry.BedInfoQry;
 import com.dormitory.controller.vo.BedInfoVO;
-import com.dormitory.entity.BedInfo;
-import com.dormitory.entity.ClassesInfo;
-import com.dormitory.entity.RelocationRecord;
-import com.dormitory.entity.SysStudent;
+import com.dormitory.entity.*;
 import com.dormitory.exception.ServiceException;
-import com.dormitory.mapper.BedInfoMapper;
-import com.dormitory.mapper.ClassesInfoMapper;
-import com.dormitory.mapper.RelocationRecordMapper;
-import com.dormitory.mapper.SysStudentMapper;
+import com.dormitory.mapper.*;
 import com.dormitory.service.BedInfoService;
 import com.dormitory.utils.CopyUtils;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +49,11 @@ public class BedInfoServiceImpl extends ServiceImpl<BedInfoMapper, BedInfo> impl
      * 动迁记录Mapper
      */
     private final RelocationRecordMapper relocationRecordMapper;
+
+    /**
+     * 宿舍信息Mapper
+     */
+    private final DormitoryInfoMapper dormitoryInfoMapper;
 
     /**
      * 床位信息列表查询
@@ -185,6 +181,7 @@ public class BedInfoServiceImpl extends ServiceImpl<BedInfoMapper, BedInfo> impl
         if (BooleanEnum.TRUE.getCode().equals(dto.getIsHead())) {
             List<BedInfo> list1 = new LambdaQueryChainWrapper<>(baseMapper)
                     .eq(BedInfo::getDormitoryId, dto.getDormitoryId())
+                    .eq(BedInfo::getIsHead, BooleanEnum.TRUE.getCode())
                     .list();
             if (!CollectionUtils.isEmpty(list1)) {
                 throw new ServiceException("该宿舍已有宿舍长，无法再次设置!");
@@ -205,7 +202,19 @@ public class BedInfoServiceImpl extends ServiceImpl<BedInfoMapper, BedInfo> impl
         new LambdaUpdateChainWrapper<>(sysStudentMapper)
                 .eq(SysStudent::getStudentId, dto.getUseStudent())
                 .set(SysStudent::getBedId, dto.getBedId())
+                .set(SysStudent::getDormitoryId, dto.getDormitoryId())
                 .update();
+        DormitoryInfo dormitoryInfo = new LambdaQueryChainWrapper<>(dormitoryInfoMapper)
+                .eq(DormitoryInfo::getDormitoryId, dto.getDormitoryId())
+                .one();
+        // 判断宿舍是否使用
+        if (UseStatusEnum.NOT_USE.getCode().equals(dormitoryInfo.getUseStatus())) {
+            // 未使用，设置宿舍使用状态
+            new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                    .eq(DormitoryInfo::getDormitoryId, dto.getDormitoryId())
+                    .set(DormitoryInfo::getUseStatus, UseStatusEnum.USE.getCode())
+                    .update();
+        }
         // 记录动迁信息
         return relocationRecordMapper.insert(
                 new RelocationRecord()
@@ -228,15 +237,55 @@ public class BedInfoServiceImpl extends ServiceImpl<BedInfoMapper, BedInfo> impl
     public Boolean release(ReleaseBedDTO dto) {
         // 根据床位ID查询床位信息
         BedInfo bedInfo = baseMapper.selectById(dto.getBedId());
+        // 判断是否是宿舍长
+        if (BooleanEnum.TRUE.getCode().equals(bedInfo.getIsHead())) {
+            // 是宿舍长，排除当前学生查询其他学生
+            List<BedInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
+                    .eq(BedInfo::getDormitoryId, bedInfo.getDormitoryId())
+                    .ne(BedInfo::getBedId, bedInfo.getBedId())
+                    .isNotNull(BedInfo::getUseStudent)
+                    .list();
+            // 如果宿舍里还有其他学生
+            if (!CollectionUtils.isEmpty(list)) {
+                // 选择第一个学生自动升级为宿舍长
+                new LambdaUpdateChainWrapper<>(baseMapper)
+                        .eq(BedInfo::getBedId, list.get(0).getBedId())
+                        .set(BedInfo::getIsHead, BooleanEnum.TRUE.getCode())
+                        .update();
+            } else {
+                // 当前宿舍不存在学生，释放宿舍
+                new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                        .eq(DormitoryInfo::getDormitoryId, bedInfo.getDormitoryId())
+                        .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
+                        .update();
+            }
+        } else {
+            // 排除当前学生查询其他学生
+            List<BedInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
+                    .eq(BedInfo::getDormitoryId, bedInfo.getDormitoryId())
+                    .ne(BedInfo::getBedId, bedInfo.getBedId())
+                    .isNotNull(BedInfo::getUseStudent)
+                    .list();
+            // 如果宿舍里没有学生
+            if (CollectionUtils.isEmpty(list)) {
+                // 当前宿舍不存在学生，释放宿舍
+                new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                        .eq(DormitoryInfo::getDormitoryId, bedInfo.getDormitoryId())
+                        .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
+                        .update();
+            }
+        }
         // 释放床位信息
         new LambdaUpdateChainWrapper<>(baseMapper)
                 .eq(BedInfo::getBedId, dto.getBedId())
                 .set(BedInfo::getUseStudent, null)
+                .set(BedInfo::getIsHead, BooleanEnum.FALSE.getCode())
                 .update();
         // 学生表释放
         new LambdaUpdateChainWrapper<>(sysStudentMapper)
                 .eq(SysStudent::getStudentId, bedInfo.getUseStudent())
                 .set(SysStudent::getBedId, null)
+                .set(SysStudent::getDormitoryId, null)
                 .update();
         // 记录动迁信息
         return relocationRecordMapper.insert(

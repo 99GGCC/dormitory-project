@@ -1,6 +1,8 @@
 package com.dormitory.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
@@ -141,7 +143,7 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
                 .eq(SysStudent::getStudentNum, dto.getStudentNum())
                 .ne(SysStudent::getStudentId, studentId)
                 .list();
-        if (CollectionUtils.isEmpty(list)) {
+        if (!CollectionUtils.isEmpty(list)) {
             throw new ServiceException("学生学号已存在，修改失败!");
         }
         // 生成学生类
@@ -151,9 +153,14 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
         // 判断床位是否变化
         SysStudent old = baseMapper.selectById(studentId);
         if (!ObjectUtils.isEmpty(student.getDormitoryId()) && !ObjectUtils.isEmpty(student.getBedId())) {
-            if (!old.getBedId().equals(student.getBedId()) || !old.getDormitoryId().equals(student.getDormitoryId())) {
+            if (ObjectUtils.isEmpty(old.getDormitoryId()) && ObjectUtils.isEmpty(old.getBedId())) {
+                // 设置学生床位
+                setDormitoryInfoIn(student, RelocationTypeEnum.OTHER_IN);
+            } else if (!old.getBedId().equals(student.getBedId()) || !old.getDormitoryId().equals(student.getDormitoryId())) {
                 // 处理学生宿舍信息
                 handleStudentDormitoryInfo(old, student);
+            } else {
+                throw new ServiceException("学生宿舍和床位异常，请联系管理员!");
             }
         }
         // 编辑信息并返回
@@ -278,32 +285,41 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
     public Boolean status(Long studentId, Integer status) {
         // 查询学生信息
         SysStudent student = baseMapper.selectById(studentId);
+        LambdaUpdateWrapper<SysStudent> lqw = new LambdaUpdateWrapper<>();
         // 判断学生初始状态
         if (StudentStatusEnum.NORMAL.getCode().equals(student.getStudentStatus())) {
             // 初始状态为正常，判断设置学生状态
             if (StudentStatusEnum.GRADUATE.getCode().equals(status)) {
                 // 设置学生状态为毕业
-                setDormitoryInfoOut(student, RelocationTypeEnum.GRADUATE_OUT);
+                if (!ObjectUtils.isEmpty(student.getDormitoryId()) && !ObjectUtils.isEmpty(student.getBedId())) {
+                    setDormitoryInfoOut(student, RelocationTypeEnum.GRADUATE_OUT);
+                }
             } else if (StudentStatusEnum.STOP.getCode().equals(status)) {
                 // 设置学生状态为休学
-                setDormitoryInfoOut(student, RelocationTypeEnum.OTHER_OUT);
+                if (!ObjectUtils.isEmpty(student.getDormitoryId()) && !ObjectUtils.isEmpty(student.getBedId())) {
+                    setDormitoryInfoOut(student, RelocationTypeEnum.OTHER_OUT);
+                }
             } else {
                 throw new ServiceException("无法设置学生为当前状态!");
             }
+            lqw.set(SysStudent::getBedId, null).set(SysStudent::getDormitoryId, null);
         } else if (StudentStatusEnum.STOP.getCode().equals(student.getStudentStatus())) {
             // 初始状态为休学，判断设置学生状态
             if (StudentStatusEnum.NORMAL.getCode().equals(status)) {
                 // 设置学生状态为正常,设置其他迁入
-                setDormitoryInfoIn(student, RelocationTypeEnum.OTHER_IN);
+                if (!ObjectUtils.isEmpty(student.getDormitoryId()) && !ObjectUtils.isEmpty(student.getBedId())) {
+                    setDormitoryInfoIn(student, RelocationTypeEnum.OTHER_IN);
+                }
+            } else {
+                throw new ServiceException("无法设置学生为当前状态!");
             }
         } else {
             throw new ServiceException("无法设置学生为当前状态!");
         }
         // 更新学生状态
-        return new LambdaUpdateChainWrapper<>(baseMapper)
-                .eq(SysStudent::getStudentId, studentId)
-                .set(SysStudent::getStudentStatus, status)
-                .update();
+        lqw.set(SysStudent::getStudentStatus, status)
+                .eq(SysStudent::getStudentId, studentId);
+        return baseMapper.update(null, lqw) > 0;
     }
 
     /**
@@ -374,6 +390,21 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
                 // 当前宿舍不存在学生，释放宿舍
                 new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
                         .eq(DormitoryInfo::getDormitoryId, student.getDormitoryId())
+                        .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
+                        .update();
+            }
+        } else {
+            // 排除当前学生查询其他学生
+            List<BedInfo> list = new LambdaQueryChainWrapper<>(bedInfoMapper)
+                    .eq(BedInfo::getDormitoryId, bedInfo.getDormitoryId())
+                    .ne(BedInfo::getBedId, bedInfo.getBedId())
+                    .isNotNull(BedInfo::getUseStudent)
+                    .list();
+            // 如果宿舍里没有学生
+            if (CollectionUtils.isEmpty(list)) {
+                // 当前宿舍不存在学生，释放宿舍
+                new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                        .eq(DormitoryInfo::getDormitoryId, bedInfo.getDormitoryId())
                         .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
                         .update();
             }
@@ -448,6 +479,21 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
                 // 当前宿舍不存在学生，释放宿舍
                 new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
                         .eq(DormitoryInfo::getDormitoryId, old.getDormitoryId())
+                        .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
+                        .update();
+            }
+        } else {
+            // 排除当前学生查询其他学生
+            List<BedInfo> list = new LambdaQueryChainWrapper<>(bedInfoMapper)
+                    .eq(BedInfo::getDormitoryId, bedInfo.getDormitoryId())
+                    .ne(BedInfo::getBedId, bedInfo.getBedId())
+                    .isNotNull(BedInfo::getUseStudent)
+                    .list();
+            // 如果宿舍里没有学生
+            if (CollectionUtils.isEmpty(list)) {
+                // 当前宿舍不存在学生，释放宿舍
+                new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                        .eq(DormitoryInfo::getDormitoryId, bedInfo.getDormitoryId())
                         .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
                         .update();
             }

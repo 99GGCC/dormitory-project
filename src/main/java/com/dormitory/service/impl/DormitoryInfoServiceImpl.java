@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -99,7 +100,12 @@ public class DormitoryInfoServiceImpl extends ServiceImpl<DormitoryInfoMapper, D
                 .list();
         List<DormitoryInfoVO> voList = CopyUtils.classCopyList(list, DormitoryInfoVO.class);
         // 根据楼层信息分组返回
-        return voList.stream().collect(Collectors.groupingBy(DormitoryInfoVO::getBuildingFloor));
+        Map<Integer, List<DormitoryInfoVO>> collect = voList.stream().collect(Collectors.groupingBy(DormitoryInfoVO::getBuildingFloor));
+        collect.forEach((k, v) -> {
+            v.sort(Comparator.comparing(DormitoryInfoVO::getDormitoryName));
+            collect.put(k, v);
+        });
+        return collect;
     }
 
     /**

@@ -4,33 +4,38 @@
 
     <select id="pageByQry" resultType="com.dormitory.controller.vo.RelocationRecordVO">
         SELECT
-            rr.relocation_id,
-            rr.relocation_time,
-            rr.relocation_type,
-            di.dormitory_id,
-            di.dormitory_name,
-            bi.bed_id,
-            bi.bed_name,
-            ss.student_id,
-            ss.student_name,
-            ss.student_num,
-            ci.classes_id,
-            ci.classes_name,
-            ci.classes_status,
-            mi.major_id,
-            mi.major_name,
-            cei.college_id,
-            cei.college_name
+        rr.relocation_id,
+        rr.relocation_time,
+        rr.relocation_type,
+        bi1.building_id,
+        bi1.building_name,
+        bi1.short_name,
+        bi1.building_type,
+        di.dormitory_id,
+        di.dormitory_name,
+        bi.bed_id,
+        bi.bed_name,
+        ss.student_id,
+        ss.student_name,
+        ss.student_num,
+        ci.classes_id,
+        ci.classes_name,
+        ci.classes_status,
+        mi.major_id,
+        mi.major_name,
+        cei.college_id,
+        cei.college_name
         FROM
-            relocation_record rr
+        relocation_record rr
         LEFT JOIN bed_info bi ON rr.bed_id = bi.bed_id
         LEFT JOIN dormitory_info di ON rr.dormitory_id = di.dormitory_id
-        LEFT JOIN sys_student ss ON ss.student_id = bi.use_student
+        LEFT JOIN building_info bi1 ON di.building_id = bi1.building_id
+        LEFT JOIN sys_student ss ON ss.student_id = rr.student_id
         LEFT JOIN classes_info ci ON ss.classes_id = ci.classes_id
         LEFT JOIN major_info mi ON ci.major_id = mi.major_id
         LEFT JOIN college_info cei ON mi.college_id = cei.college_id
         WHERE
-            rr.delete_flag = 0
+        rr.delete_flag = 0
         <if test="qry.relocationType != null">
             AND rr.relocation_type = #{qry.relocationType}
         </if>

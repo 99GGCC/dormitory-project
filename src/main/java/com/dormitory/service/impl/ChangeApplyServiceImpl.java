@@ -222,6 +222,21 @@ public class ChangeApplyServiceImpl extends ServiceImpl<ChangeApplyMapper, Chang
                         .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
                         .update();
             }
+        } else {
+            // 排除当前学生查询其他学生
+            List<BedInfo> list = new LambdaQueryChainWrapper<>(bedInfoMapper)
+                    .eq(BedInfo::getDormitoryId, bedInfo.getDormitoryId())
+                    .ne(BedInfo::getBedId, bedInfo.getBedId())
+                    .isNotNull(BedInfo::getUseStudent)
+                    .list();
+            // 如果宿舍里没有学生
+            if (CollectionUtils.isEmpty(list)) {
+                // 当前宿舍不存在学生，释放宿舍
+                new LambdaUpdateChainWrapper<>(dormitoryInfoMapper)
+                        .eq(DormitoryInfo::getDormitoryId, bedInfo.getDormitoryId())
+                        .set(DormitoryInfo::getUseStatus, UseStatusEnum.NOT_USE.getCode())
+                        .update();
+            }
         }
         // 取消当前床位占用
         new LambdaUpdateChainWrapper<>(bedInfoMapper)

@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/dict")
+@RequestMapping("/common/dict")
 @Api(value = "SysDictController", tags = {"字典接口"})
 public class SysDictController {
 

@@ -8,6 +8,7 @@
         <result property="buildingId" column="building_id"/>
         <result property="buildingFloor" column="building_floor"/>
         <result property="dormitoryStatus" column="dormitory_status"/>
+        <result property="useStatus" column="use_status"/>
         <collection property="bedInfoList" ofType="com.dormitory.controller.vo.BedInfoVO">
             <id property="bedId" column="bed_id"/>
             <result property="bedName" column="bed_name"/>
@@ -37,6 +38,7 @@
             di.building_id,
             di.building_floor,
             di.dormitory_status,
+            di.use_status,
             bi.bed_id,
             bi.bed_name,
             bi.bed_status,

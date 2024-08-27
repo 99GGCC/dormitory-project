@@ -111,6 +111,30 @@ public class RelocationRecordVO implements Serializable {
     private String collegeName;
 
     /**
+     * 楼栋ID
+     */
+    @ApiModelProperty("楼栋ID")
+    private Long buildingId;
+
+    /**
+     * 楼栋名称
+     */
+    @ApiModelProperty("楼栋名称")
+    private String buildingName;
+
+    /**
+     * 楼栋简称
+     */
+    @ApiModelProperty("楼栋简称")
+    private String shortName;
+
+    /**
+     * 楼栋类型1、男生宿舍 0、女生宿舍
+     */
+    @ApiModelProperty("楼栋类型1、男生宿舍 0、女生宿舍")
+    private Integer buildingType;
+
+    /**
      * 宿舍ID
      */
     @ApiModelProperty("宿舍ID")
