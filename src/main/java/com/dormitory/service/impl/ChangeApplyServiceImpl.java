@@ -11,6 +11,7 @@ import com.dormitory.common.RelocationTypeEnum;
 import com.dormitory.common.UseStatusEnum;
 import com.dormitory.config.StpStudentUtil;
 import com.dormitory.controller.dto.ChangeApplyDTO;
+import com.dormitory.controller.dto.ChangeApplyStatusDTO;
 import com.dormitory.controller.qry.ChangeApplyQry;
 import com.dormitory.controller.vo.ChangeApplyVO;
 import com.dormitory.entity.*;
@@ -104,29 +105,28 @@ public class ChangeApplyServiceImpl extends ServiceImpl<ChangeApplyMapper, Chang
     /**
      * 处理调换申请
      *
-     * @param changeId    申请ID
-     * @param status      申请状态
-     * @param applyResult 申请结果
+     * @param changeId 申请ID
+     * @param dto      调换结果DTO
      * @return Boolean
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean status(Long changeId, Integer status, String applyResult) {
+    public Boolean status(Long changeId, ChangeApplyStatusDTO dto) {
         // 判断动迁状态
         ChangeApply changeApply = baseMapper.selectById(changeId);
         if (!ApplyStatusEnum.APPLY.getCode().equals(changeApply.getApplyStatus())) {
             throw new ServiceException("当前状态无法处理调换!");
         }
         // 判断是否是申请通过
-        if (ApplyStatusEnum.PASS.getCode().equals(status)) {
+        if (ApplyStatusEnum.PASS.getCode().equals(dto.getStatus())) {
             // 处理学生宿舍信息
             handleStudentDormitoryInfo(changeApply);
         }
         // 处理调换申请
         return new LambdaUpdateChainWrapper<>(baseMapper)
                 .eq(ChangeApply::getChangeId, changeApply)
-                .set(ChangeApply::getApplyStatus, status)
-                .set(ChangeApply::getApplyResult, applyResult)
+                .set(ChangeApply::getApplyStatus, dto.getStatus())
+                .set(ChangeApply::getApplyResult, dto.getApplyResult())
                 .update();
     }
 

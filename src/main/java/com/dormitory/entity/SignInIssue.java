@@ -58,6 +58,11 @@ public class SignInIssue implements Serializable {
     private Date endTime;
 
     /**
+     * 考勤状态
+     */
+    private Integer signInStatus;
+
+    /**
      * 删除标志，0未删除 1删除
      */
     @TableField(fill = FieldFill.INSERT)

@@ -4,6 +4,7 @@ package com.dormitory.controller.web.admin;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dormitory.common.R;
 import com.dormitory.controller.dto.ChangeApplyDTO;
+import com.dormitory.controller.dto.ChangeApplyStatusDTO;
 import com.dormitory.controller.qry.ChangeApplyQry;
 import com.dormitory.controller.vo.ChangeApplyVO;
 import com.dormitory.service.ChangeApplyService;
@@ -55,9 +56,8 @@ public class AdminChangeApplyController {
     @ApiOperation("处理调换申请")
     @PostMapping("/status/{changeId}")
     public R<Boolean> status(@NotNull(message = "申请ID") @PathVariable Long changeId,
-                             @RequestParam Integer status,
-                             @RequestParam String applyResult) {
-        return R.success(changeApplyService.status(changeId, status, applyResult));
+                             @RequestBody @Valid ChangeApplyStatusDTO dto) {
+        return R.success(changeApplyService.status(changeId, dto));
     }
 }
 

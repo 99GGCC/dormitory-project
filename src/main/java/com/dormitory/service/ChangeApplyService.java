@@ -3,6 +3,7 @@ package com.dormitory.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dormitory.controller.dto.ChangeApplyDTO;
+import com.dormitory.controller.dto.ChangeApplyStatusDTO;
 import com.dormitory.controller.qry.ChangeApplyQry;
 import com.dormitory.controller.vo.ChangeApplyVO;
 import com.dormitory.entity.ChangeApply;
@@ -44,12 +45,11 @@ public interface ChangeApplyService extends IService<ChangeApply> {
     /**
      * 处理调换申请
      *
-     * @param changeId    申请ID
-     * @param status      申请状态
-     * @param applyResult 申请结果
+     * @param changeId 申请ID
+     * @param dto      调换结果DTO
      * @return Boolean
      */
-    Boolean status(Long changeId, Integer status, String applyResult);
+    Boolean status(Long changeId, ChangeApplyStatusDTO dto);
 
     /**
      * 学生调换申请分页查询
@@ -70,7 +70,7 @@ public interface ChangeApplyService extends IService<ChangeApply> {
     /**
      * 学生取消调换申请
      *
-     * @param changeId    申请ID
+     * @param changeId 申请ID
      * @return Boolean
      */
     Boolean cancel(Long changeId);

@@ -2,4 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dormitory.mapper.SignInBuildingMapper">
 
+    <select id="listByBuildingIds" resultType="com.dormitory.controller.vo.SignInBuildingVO">
+        SELECT
+            sib.sign_in_building_id,
+            sib.sign_in_id,
+            sib.building_id,
+            bi.building_name,
+            bi.short_name,
+            bi.building_floor,
+            bi.building_type
+        FROM
+            sign_in_building sib
+                LEFT JOIN building_info bi ON sib.building_id = bi.building_id
+        WHERE
+            sib.delete_flag = 0
+        <if test="buildingIds != null and buildingIds.size() > 0">
+            AND sib.building_id IN
+            <foreach collection="buildingIds" item="buildingId" open="(" separator="," close=")">
+                #{buildingId}
+            </foreach>
+        </if>
+    </select>
+    <select id="listBySignInIds" resultType="com.dormitory.controller.vo.SignInBuildingVO">
+        SELECT
+        sib.sign_in_building_id,
+        sib.sign_in_id,
+        sib.building_id,
+        bi.building_name,
+        bi.short_name,
+        bi.building_floor,
+        bi.building_type
+        FROM
+        sign_in_building sib
+        LEFT JOIN building_info bi ON sib.building_id = bi.building_id
+        WHERE
+        sib.delete_flag = 0
+        <if test="signInIds != null and signInIds.size() > 0">
+            AND sib.sign_in_id IN
+            <foreach collection="signInIds" item="signInId" open="(" separator="," close=")">
+                #{signInId}
+            </foreach>
+        </if>
+    </select>
 </mapper>

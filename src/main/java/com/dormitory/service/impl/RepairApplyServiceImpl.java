@@ -98,7 +98,8 @@ public class RepairApplyServiceImpl extends ServiceImpl<RepairApplyMapper, Repai
         RepairApply repairApply = CopyUtils.classCopy(dto, RepairApply.class);
         // 设置默认值
         repairApply.setApplyTime(new Date())
-                .setRepairStatus(RepairStatusEnum.APPLY.getCode());
+                .setRepairStatus(RepairStatusEnum.APPLY.getCode())
+                .setRepairResult(RepairStatusEnum.APPLY.getCode());
         // 保存维修申请
         return baseMapper.insert(repairApply) > 0;
     }

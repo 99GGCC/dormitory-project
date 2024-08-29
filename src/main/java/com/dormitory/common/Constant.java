@@ -132,4 +132,10 @@ public class Constant {
      */
     public static final String DICT_CACHE = "dict_code";
 
+
+    /**
+     * 签到缓存
+     */
+    public static final String SIGN_IN_CACHE = "signIn:";
+
 }

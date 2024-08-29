@@ -71,6 +71,14 @@ public interface SysStudentService extends IService<SysStudent> {
     StudentLoginVO login(StudentLoginDTO loginDTO);
 
     /**
+     * 根据学生ID获取登录信息
+     *
+     * @param studentId 学生ID
+     * @return StudentLoginVO
+     */
+    StudentLoginVO token(Long studentId);
+
+    /**
      * 学生个人信息
      *
      * @return StudentVO

@@ -2,4 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dormitory.mapper.SignInIssueMapper">
 
+    <update id="addNum">
+        UPDATE sign_in_issue SET reality_student = reality_student + 1 WHERE sign_in_id = #{signInId}
+    </update>
 </mapper>

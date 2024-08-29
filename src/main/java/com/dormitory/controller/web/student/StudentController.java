@@ -44,6 +44,15 @@ public class StudentController {
     }
 
     /**
+     * 根据学生ID获取登录信息
+     */
+    @ApiOperation("根据学生ID获取登录信息")
+    @PostMapping("/token/{studentId}")
+    public R<StudentLoginVO> token(@PathVariable Long studentId) {
+        return R.success(sysStudentService.token(studentId));
+    }
+
+    /**
      * 个人信息
      */
     @ApiOperation("个人信息")

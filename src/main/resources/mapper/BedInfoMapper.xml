@@ -50,4 +50,29 @@
         </if>
         ORDER BY bi.bed_id ASC
     </select>
+    <select id="selectByBuildingIds" resultType="com.dormitory.controller.vo.BedInfoVO">
+        SELECT
+        bi.bed_id,
+        bi.bed_name,
+        bi.dormitory_id,
+        bi.bed_status,
+        bi.use_student,
+        bi.is_head,
+        ss.student_id,
+        ss.student_name,
+        ss.student_num,
+        ss.student_phone,
+        ss.student_email
+        FROM
+        bed_info bi
+        LEFT JOIN dormitory_info di ON bi.dormitory_id = di.dormitory_id AND di.delete_flag = 0
+        LEFT JOIN sys_student ss ON bi.use_student = ss.student_id AND ss.delete_flag = 0
+        WHERE
+        bi.delete_flag = 0
+        AND ( bi.use_student IS NOT NULL OR bi.use_student != 0 )
+        AND di.building_id IN
+        <foreach collection="buildingIds" item="buildingId" open="(" separator="," close=")">
+            #{buildingId}
+        </foreach>
+    </select>
 </mapper>

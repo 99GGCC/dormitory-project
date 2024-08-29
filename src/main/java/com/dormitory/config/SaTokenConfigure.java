@@ -43,7 +43,8 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             "/images/**",
             "/common/getImageCode",
             "/common/getKeyId/**",
-            "/common/upload/image"
+            "/common/upload/image",
+            "/student/token/**"
     };
 
     /**

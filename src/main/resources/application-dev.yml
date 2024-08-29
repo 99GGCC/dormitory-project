@@ -73,3 +73,12 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
+
+# 邮件配置
+email:
+  host: smtp.qq.com
+  port: 465
+  form: 807044811@qq.com
+  name: XXX
+  authentication: mnrtzxnqzfqtbaji
+  student-port: 9001

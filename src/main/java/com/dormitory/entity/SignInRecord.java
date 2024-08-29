@@ -53,6 +53,11 @@ public class SignInRecord implements Serializable {
     private Date recordTime;
 
     /**
+     * 发送状态
+     */
+    private Integer sendStatus;
+
+    /**
      * 删除标志，0未删除 1删除
      */
     @TableField(fill = FieldFill.INSERT)

@@ -80,6 +80,12 @@ public class BedInfoVO implements Serializable {
     private String studentNum;
 
     /**
+     * 学生邮箱
+     */
+    @ApiModelProperty("学生邮箱")
+    private String studentEmail;
+
+    /**
      * 手机号码
      */
     @ApiModelProperty("手机号码")
@@ -138,4 +144,10 @@ public class BedInfoVO implements Serializable {
      */
     @ApiModelProperty("学院名称")
     private String collegeName;
+
+    /**
+     * 考勤记录ID
+     */
+    @ApiModelProperty("考勤记录ID")
+    private Long recordId;
 }

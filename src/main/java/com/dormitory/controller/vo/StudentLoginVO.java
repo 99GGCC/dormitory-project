@@ -55,12 +55,6 @@ public class StudentLoginVO {
     private Integer studentSex;
 
     /**
-     * 班级ID
-     */
-    @ApiModelProperty("班级ID")
-    private Long classesId;
-
-    /**
      * 宿舍ID
      */
     @ApiModelProperty("宿舍ID")
@@ -89,4 +83,46 @@ public class StudentLoginVO {
      */
     @ApiModelProperty("用户登录信息")
     private SaTokenInfo tokenInfo;
+
+    /**
+     * 班级ID
+     */
+    @ApiModelProperty("班级ID")
+    private Long classesId;
+
+    /**
+     * 班级名称
+     */
+    @ApiModelProperty("班级名称")
+    private String classesName;
+
+    /**
+     * 班级状态
+     */
+    @ApiModelProperty("班级状态")
+    private Integer classesStatus;
+
+    /**
+     * 专业ID
+     */
+    @ApiModelProperty("专业ID")
+    private Long majorId;
+
+    /**
+     * 专业名称
+     */
+    @ApiModelProperty("专业名称")
+    private String majorName;
+
+    /**
+     * 学院ID
+     */
+    @ApiModelProperty("学院ID")
+    private Long collegeId;
+
+    /**
+     * 学院名称
+     */
+    @ApiModelProperty("学院名称")
+    private String collegeName;
 }

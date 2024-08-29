@@ -1,7 +1,6 @@
 package com.dormitory.service.impl;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
@@ -219,6 +218,23 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
     }
 
     /**
+     * 根据学生ID获取登录信息
+     *
+     * @param studentId 学生ID
+     * @return StudentLoginVO
+     */
+    @Override
+    public StudentLoginVO token(Long studentId) {
+        SysStudent student = baseMapper.selectById(studentId);
+        // 判断学生是否存在
+        if (student == null) {
+            return null;
+        }
+        // 调用登录返回值方法
+        return getLoginVO(student);
+    }
+
+    /**
      * 学生个人信息
      *
      * @return StudentVO
@@ -433,7 +449,8 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
      */
     private StudentLoginVO getLoginVO(SysStudent student) {
         // 初始化学生登录VO
-        StudentLoginVO loginVO = CopyUtils.classCopy(student, StudentLoginVO.class);
+        StudentVO studentVO = baseMapper.detailById(student.getStudentId());
+        StudentLoginVO loginVO = CopyUtils.classCopy(studentVO, StudentLoginVO.class);
         // 登录实现
         StpStudentUtil.login(student.getStudentId());
         // 缓存学生信息
