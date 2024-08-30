@@ -2,6 +2,8 @@ package com.dormitory.controller.web.student;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.dormitory.common.BooleanEnum;
+import com.dormitory.common.Constant;
 import com.dormitory.common.R;
 import com.dormitory.config.StpStudentUtil;
 import com.dormitory.controller.qry.SignInRecordQry;
@@ -38,6 +40,7 @@ public class StudentSignInRecordController {
     public R<IPage<SignInRecordVO>> pageByQry(@RequestBody SignInRecordQry qry) {
         // 设置考勤记录
         qry.setStudentId(StpStudentUtil.getLoginIdAsLong());
+        qry.setIsFilter(BooleanEnum.TRUE.getCode());
         // 调用分页接口查询考勤记录
         return R.success(signInRecordService.pageByQry(qry));
     }

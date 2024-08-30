@@ -19,9 +19,9 @@ public enum SignInRecordStatusEnum {
      */
     SIGN(1, "已签到"),
     /**
-     * 取消
+     * 已取消
      */
-    CANCEL(2, "取消");
+    CANCEL(2, "已取消");
 
     private final Integer code;
     private final String mess;

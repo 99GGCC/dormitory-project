@@ -52,7 +52,7 @@ public class SignInRecordServiceImpl extends ServiceImpl<SignInRecordMapper, Sig
      */
     @Override
     public IPage<SignInRecordVO> pageByQry(SignInRecordQry qry) {
-        return baseMapper.pageByQry(new Page<SignInRecordVO>(), qry);
+        return baseMapper.pageByQry(new Page<>(qry.getPage(), qry.getLimit()), qry);
     }
 
     /**
@@ -71,7 +71,7 @@ public class SignInRecordServiceImpl extends ServiceImpl<SignInRecordMapper, Sig
             throw new ServiceException("未查询到该学生的签到信息!");
         }
         // 判断签到是否过期
-        if (redisUtil.hasKey(Constant.SIGN_IN_CACHE)) {
+        if (redisUtil.hasKey(Constant.SIGN_IN_CACHE + record.getSignInId())) {
             // 更新签到学生人数
             signInIssueMapper.addNum(record.getSignInId());
             // 更新签到记录

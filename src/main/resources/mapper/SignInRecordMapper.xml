@@ -70,6 +70,9 @@
         <if test="qry.recordStatus != null">
             AND sir.record_status = #{qry.recordStatus}
         </if>
+        <if test="qry.isFilter != null">
+            AND sii.sign_in_status != 0
+        </if>
         ORDER BY sir.record_id DESC
     </select>
     <select id="detailById" resultType="com.dormitory.controller.vo.SignInRecordVO">

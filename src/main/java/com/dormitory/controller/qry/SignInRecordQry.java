@@ -44,4 +44,10 @@ public class SignInRecordQry extends Base {
      */
     @ApiModelProperty("考勤状态")
     private Integer recordStatus;
+
+    /**
+     * 过滤状态
+     */
+    @ApiModelProperty(value = "过滤状态",hidden = true)
+    private Integer isFilter;
 }
