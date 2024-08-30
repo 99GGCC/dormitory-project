@@ -124,7 +124,7 @@ public class ChangeApplyServiceImpl extends ServiceImpl<ChangeApplyMapper, Chang
         }
         // 处理调换申请
         return new LambdaUpdateChainWrapper<>(baseMapper)
-                .eq(ChangeApply::getChangeId, changeApply)
+                .eq(ChangeApply::getChangeId, changeId)
                 .set(ChangeApply::getApplyStatus, dto.getStatus())
                 .set(ChangeApply::getApplyResult, dto.getApplyResult())
                 .update();
