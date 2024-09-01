@@ -93,6 +93,7 @@ public class SignInIssueServiceImpl extends ServiceImpl<SignInIssueMapper, SignI
                 .between(ObjectUtils.isNotEmpty(qry.getEndTimeStart()) && ObjectUtils.isNotEmpty(qry.getEndTimeEnd()),
                         SignInIssue::getEndTime, qry.getEndTimeStart(), qry.getEndTimeEnd())
                 .in(!CollectionUtils.isEmpty(signInBuildingVOList), SignInIssue::getSignInId, signInBuildingVOList.stream().map(SignInBuildingVO::getSignInId).distinct().collect(Collectors.toList()))
+                .orderByDesc(SignInIssue::getIssueTime)
                 .page(pages);
         // 转换成VO分页对象
         IPage<SignInIssueVO> signInIssueVOPage = CopyUtils.covertPage(pages, SignInIssueVO.class);
