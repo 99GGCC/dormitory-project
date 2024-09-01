@@ -55,10 +55,28 @@ public class StudentLoginVO {
     private Integer studentSex;
 
     /**
+     * 楼栋ID
+     */
+    @ApiModelProperty("楼栋ID")
+    private Long buildingId;
+
+    /**
+     * 楼栋名称
+     */
+    @ApiModelProperty("楼栋名称")
+    private String buildingName;
+
+    /**
      * 宿舍ID
      */
     @ApiModelProperty("宿舍ID")
     private Long dormitoryId;
+
+    /**
+     * 宿舍名称
+     */
+    @ApiModelProperty("宿舍名称")
+    private String dormitoryName;
 
     /**
      * 床位ID
@@ -66,6 +84,11 @@ public class StudentLoginVO {
     @ApiModelProperty("床位ID")
     private Long bedId;
 
+    /**
+     * 床位名称
+     */
+    @ApiModelProperty("床位名称")
+    private String bedName;
     /**
      * 学生状态
      */

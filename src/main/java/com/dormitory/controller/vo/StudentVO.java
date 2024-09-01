@@ -104,6 +104,12 @@ public class StudentVO implements Serializable {
     private Long bedId;
 
     /**
+     * 床位名称
+     */
+    @ApiModelProperty("床位名称")
+    private String bedName;
+
+    /**
      * 学生状态
      */
     @ApiModelProperty("学生状态")
