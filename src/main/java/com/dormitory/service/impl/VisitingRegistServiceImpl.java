@@ -94,7 +94,7 @@ public class VisitingRegistServiceImpl extends ServiceImpl<VisitingRegistMapper,
                 .eq(VisitingRegist::getRegistId, registId)
                 .eq(VisitingRegist::getAdminId, StpUtil.getLoginIdAsLong())
                 .one();
-        if (ObjectUtils.isNotEmpty(visitingRegist)) {
+        if (ObjectUtils.isEmpty(visitingRegist)) {
             throw new ServiceException("不能修改其他管理员的登记信息·");
         }
         // 组装来访登记实体
@@ -119,7 +119,7 @@ public class VisitingRegistServiceImpl extends ServiceImpl<VisitingRegistMapper,
                 .eq(VisitingRegist::getRegistId, registId)
                 .eq(VisitingRegist::getAdminId, StpUtil.getLoginIdAsLong())
                 .one();
-        if (ObjectUtils.isNotEmpty(visitingRegist)) {
+        if (ObjectUtils.isEmpty(visitingRegist)) {
             throw new ServiceException("不能删除其他管理员的登记信息·");
         }
         // 编辑来访登记
