@@ -73,7 +73,7 @@ public class AsyncServiceImpl implements AsyncService {
                 // 获取项目启动IP
                 InetAddress inetAddress = InetAddress.getLocalHost();
                 // 生成考勤签到链接
-                String link = "http://" + inetAddress.getHostAddress() + ":" + emailConfig.getStudentPort() + "/#/home?signInId=" + signInIssue.getSignInId() +
+                String link = "http://" + inetAddress.getHostAddress() + ":" + emailConfig.getStudentPort() + "/#/home?recordId=" + signInIssue.getSignInId() +
                         "&studentId=" + bedInfoVO.getStudentId();
                 // 异步发送邮件
                 boolean status = sendEmail(bedInfoVO.getStudentEmail(), "考勤签到", "考勤签到", link);
