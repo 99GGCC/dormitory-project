@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value = "管理员登录VO")
-public class AdminLoginVO {
+public class    AdminLoginVO {
 
     /**
      * 管理员ID
