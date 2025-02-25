@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dormitory.controller.qry.RelocationRecordQry;
 import com.dormitory.controller.vo.RelocationRecordVO;
 import com.dormitory.entity.RelocationRecord;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -16,6 +17,7 @@ import org.apache.ibatis.annotations.Param;
  * @author XXX
  * @since 2024-06-21
  */
+@Mapper
 public interface RelocationRecordMapper extends BaseMapper<RelocationRecord> {
 
     /**

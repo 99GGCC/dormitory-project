@@ -54,6 +54,7 @@ public class SignInRecord implements Serializable {
 
     /**
      * 发送状态
+     * 0 未发送 1 已发送
      */
     private Integer sendStatus;
 

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.dormitory.controller.qry.ChangeApplyQry;
 import com.dormitory.controller.vo.ChangeApplyVO;
 import com.dormitory.entity.ChangeApply;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -16,6 +17,7 @@ import org.apache.ibatis.annotations.Param;
  * @author XXX
  * @since 2024-06-21
  */
+@Mapper
 public interface ChangeApplyMapper extends BaseMapper<ChangeApply> {
 
     /**

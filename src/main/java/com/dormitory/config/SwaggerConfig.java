@@ -32,6 +32,7 @@ import java.util.List;
  * @author XXX
  * @since 2024-05-07
  */
+// knife4j默认访问地址 http://localhost:8081/doc.html
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {

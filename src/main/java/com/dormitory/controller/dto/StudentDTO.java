@@ -35,6 +35,12 @@ public class StudentDTO implements Serializable {
     private String studentName;
 
     /**
+     * 学生性别：0、女 1、男
+     */
+    @NotNull(message = "学生性别")
+    @ApiModelProperty("学生性别：0、女 1、男")
+    private Integer studentSex;
+    /**
      * 学生学号
      */
     @NotBlank(message = "学生学号")
@@ -55,12 +61,7 @@ public class StudentDTO implements Serializable {
     @ApiModelProperty("学生邮箱")
     private String studentEmail;
 
-    /**
-     * 学生性别：0、女 1、男
-     */
-    @NotNull(message = "学生性别")
-    @ApiModelProperty("学生性别：0、女 1、男")
-    private Integer studentSex;
+
 
     /**
      * 宿舍ID

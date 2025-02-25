@@ -31,6 +31,9 @@ public class ImageCodeUtils {
      */
     private static final int CODE_LEN = 4;
 
+    /**
+     * 生成一个验证码图片，并返回一个包含验证码字符和验证码图片（以 Base64 编码形式）的 Map
+     */
     @SneakyThrows
     public static Map<String, String> imageCode(Integer width, Integer height) {
         // 用于绘制图片，设置图片的长宽和图片类型（RGB)

@@ -6,7 +6,6 @@ import com.dormitory.common.R;
 import com.dormitory.controller.dto.BuildingInfoDTO;
 import com.dormitory.controller.qry.BuildingInfoQry;
 import com.dormitory.controller.vo.BuildingInfoVO;
-import com.dormitory.controller.vo.ClassesInfoVO;
 import com.dormitory.service.BuildingInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

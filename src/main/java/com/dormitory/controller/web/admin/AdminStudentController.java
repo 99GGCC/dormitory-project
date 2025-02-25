@@ -23,6 +23,22 @@ import javax.validation.constraints.NotNull;
  * @author XXX
  * @since 2024-06-21
  */
+
+/**
+ * 插入
+ * INSERT INTO 表名 (列1, 列2, ..., 列n) VALUES (值1, 值2, ..., 值n);
+ * INSERT INTO students (name, age, grade) VALUES ('John', 20, 'A');
+ * 查询
+ * SELECT 列1, 列2, ..., 列n FROM 表名 WHERE 条件;
+ * SELECT name, age FROM students WHERE grade = 'A';
+ * 更新
+ * UPDATE 表名 SET 列1 = 值1, 列2 = 值2, ... WHERE 条件;
+ * UPDATE students SET age = 21 WHERE name = 'John';
+ * 删除
+ * DELETE FROM 表名 WHERE 条件;
+ * DELETE FROM students WHERE name = 'John';
+ */
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/student")

@@ -13,7 +13,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://175.178.33.84:3306/dormitory_management?useUniode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://119.91.135.31:3306/dormitory_management?useUniode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: dormitory_management
     password: dormitory_management
     tomcat:
@@ -25,10 +25,9 @@ spring:
       test-while-idle: true
   # redis配置
   redis:
-    database: 1
-    host: 175.178.33.84
+    database: 0
+    host: 127.0.0.1
     port: 6379
-    password: rootZSL
     timeout: 10s
     lettuce:
       pool:
@@ -78,7 +77,7 @@ sa-token:
 email:
   host: smtp.qq.com
   port: 465
-  form: 807044811@qq.com
-  name: XXX
-  authentication: mnrtzxnqzfqtbaji
+  form: 2805595833@qq.com
+  name: qmc
+  authentication: wmjfzqvlpwdvdghi
   student-port: 9001

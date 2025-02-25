@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * 读取项目相关配置
+ * 读取与电子邮件相关的配置属性
  *
  * @author ruoyi
  */
@@ -15,17 +15,17 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "email")
 public class EmailConfig {
     /**
-     * 发送协议
+     * 邮箱发送的协议
      */
     private String host;
 
     /**
-     * 端口号
+     * 发送邮件的端口号
      */
     private Integer port;
 
     /**
-     * 发送邮箱
+     * 发送邮件的邮箱地址
      */
     private String form;
 
@@ -35,7 +35,7 @@ public class EmailConfig {
     private String name;
 
     /**
-     * 鉴权码
+     * 发送邮件时所需的鉴权码或密码，用于验证发件人的身份
      */
     private String authentication;
 

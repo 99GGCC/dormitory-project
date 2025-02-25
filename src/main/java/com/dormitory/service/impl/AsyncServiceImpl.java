@@ -73,7 +73,8 @@ public class AsyncServiceImpl implements AsyncService {
                 // 获取项目启动IP
                 InetAddress inetAddress = InetAddress.getLocalHost();
                 // 生成考勤签到链接
-                String link = "http://" + inetAddress.getHostAddress() + ":" + emailConfig.getStudentPort() + "/#/home?recordId=" + bedInfoVO.getRecordId() +
+                String link = "http://" + inetAddress.getHostAddress() + ":" + emailConfig.getStudentPort() +
+                        "/#/home?recordId=" + bedInfoVO.getRecordId() +
                         "&studentId=" + bedInfoVO.getStudentId();
                 // 异步发送邮件
                 boolean status = sendEmail(bedInfoVO.getStudentEmail(), "考勤签到", "考勤签到", link);
@@ -91,7 +92,8 @@ public class AsyncServiceImpl implements AsyncService {
     }
 
     public Boolean sendEmail(String email, String subject, String mess, String link) {
-        mess = "<html><body><p>" + mess + "</p><p>点击以下链接进行签到: <a href='" + link + "'>签到链接</a></p></body></html>";
+        mess = "<html><body><p>" + mess + "</p><p>点击以下链接进行签到: <a href='" + link
+                + "'>签到链接</a></p></body></html>";
         try {
             HtmlEmail emails = new HtmlEmail();
             emails.setHostName(emailConfig.getHost());

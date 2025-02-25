@@ -1,5 +1,6 @@
 package com.dormitory.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.conditions.update.LambdaUpdateChainWrapper;
@@ -52,14 +53,40 @@ public class BuildingInfoServiceImpl extends ServiceImpl<BuildingInfoMapper, Bui
      * @return IPage<BuildingInfoVO>
      */
     @Override
+    @Transactional
     public IPage<BuildingInfoVO> pageByQry(BuildingInfoQry qry) {
         IPage<BuildingInfo> pages = new Page<>(qry.getPage(), qry.getLimit());
         pages = new LambdaQueryChainWrapper<>(baseMapper)
+                // building_name like ?
+                // building_name = ?
                 .like(StringUtils.isNotEmpty(qry.getBuildingName()), BuildingInfo::getBuildingName, qry.getBuildingName())
                 .eq(ObjectUtils.isNotEmpty(qry.getBuildingType()), BuildingInfo::getBuildingType, qry.getBuildingType())
                 .like(StringUtils.isNotEmpty(qry.getBuildingAdmin()), BuildingInfo::getBuildingAdmin, qry.getBuildingAdmin())
                 .page(pages);
-        return CopyUtils.covertPage(pages, BuildingInfoVO.class);
+        IPage<BuildingInfoVO> page = CopyUtils.covertPage(pages, BuildingInfoVO.class);
+        List<BuildingInfoVO> buildingInfoVOList = page.getRecords();
+
+        for (BuildingInfoVO buildingInfoVO : buildingInfoVOList) {
+            // 总房间数量
+            buildingInfoVO.setAllRoomNum(buildingInfoVO.getRoomNum() * buildingInfoVO.getBuildingFloor());
+            LambdaQueryWrapper<DormitoryInfo> useWrapper = new LambdaQueryWrapper<>();
+            // 使用的房间数量
+            useWrapper.eq(DormitoryInfo::getBuildingId, buildingInfoVO.getBuildingId())
+                    .eq(DormitoryInfo::getUseStatus, 1);
+            int useCount = dormitoryInfoService.count(useWrapper);
+            buildingInfoVO.setUseRoomNum(useCount);
+            // 禁用的房间数量
+            LambdaQueryWrapper<DormitoryInfo> disableWrapper = new LambdaQueryWrapper<>();
+            disableWrapper.eq(DormitoryInfo::getBuildingId, buildingInfoVO.getBuildingId())
+                    .eq(DormitoryInfo::getDormitoryStatus, 0);
+            int disableCount = dormitoryInfoService.count(disableWrapper);
+            buildingInfoVO.setDisableRoomNum(disableCount);
+            // 空闲房间数量
+            int idleCount = buildingInfoVO.getRoomNum() * buildingInfoVO.getBuildingFloor() - disableCount - useCount;
+            buildingInfoVO.setIdleRoomNum(idleCount);
+        }
+        page.setRecords(buildingInfoVOList);
+        return page;
     }
 
     /**
@@ -140,6 +167,7 @@ public class BuildingInfoServiceImpl extends ServiceImpl<BuildingInfoMapper, Bui
         // 判断楼栋房间和楼层是否变动
         if (!buildingInfo.getBuildingFloor().equals(dto.getBuildingFloor()) || !buildingInfo.getRoomNum().equals(dto.getRoomNum())) {
             // 判断楼栋房间是否被使用
+            // 只要存在有使用的房间 宿舍的楼层和房间数就不能改变了
             List<DormitoryInfo> useList = new LambdaQueryChainWrapper<>(dormitoryInfoService.getBaseMapper())
                     .eq(DormitoryInfo::getBuildingId, buildingId)
                     .eq(DormitoryInfo::getUseStatus, UseStatusEnum.USE.getCode())
@@ -147,19 +175,20 @@ public class BuildingInfoServiceImpl extends ServiceImpl<BuildingInfoMapper, Bui
             if (!CollectionUtils.isEmpty(useList)) {
                 throw new ServiceException("楼栋房间已被使用，无法编辑!");
             }
-            // 生成楼栋房间信息
-            List<DormitoryInfo> dormitoryInfoList = generateDormitoryInfos(buildingInfo);
+            // 复制楼栋信息实体
+            buildingInfo = CopyUtils.classCopy(dto, BuildingInfo.class);
+            // 设置楼栋ID
+            buildingInfo.setBuildingId(buildingId);
             // 删除楼栋房间信息
             new LambdaUpdateChainWrapper<>(dormitoryInfoService.getBaseMapper())
                     .eq(DormitoryInfo::getBuildingId, buildingId)
                     .remove();
+            // 生成楼栋房间信息w
+            List<DormitoryInfo> dormitoryInfoList = this.generateDormitoryInfos(buildingInfo);
+
             // 批量保存宿舍信息
             dormitoryInfoService.saveBatch(dormitoryInfoList);
         }
-        // 复制楼栋信息实体
-        buildingInfo = CopyUtils.classCopy(dto, BuildingInfo.class);
-        // 设置楼栋ID
-        buildingInfo.setBuildingId(buildingId);
         // 编辑楼栋信息，并返回结果
         return baseMapper.updateById(buildingInfo) > 0;
     }

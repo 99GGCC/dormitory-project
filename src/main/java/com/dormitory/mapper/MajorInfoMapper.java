@@ -2,6 +2,7 @@ package com.dormitory.mapper;
 
 import com.dormitory.entity.MajorInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author XXX
  * @since 2024-06-21
  */
+@Mapper
 public interface MajorInfoMapper extends BaseMapper<MajorInfo> {
 
 }

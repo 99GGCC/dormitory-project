@@ -3,6 +3,7 @@ package com.dormitory.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dormitory.entity.SysRole;
 import com.dormitory.entity.SysUserRole;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -13,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
  * @author XXX
  * @since 2024-05-07
  */
+@Mapper
 public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
 
     /**

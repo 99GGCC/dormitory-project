@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.dormitory.controller.qry.BedInfoQry;
 import com.dormitory.controller.vo.BedInfoVO;
 import com.dormitory.entity.BedInfo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author XXX
  * @since 2024-06-21
  */
+@Mapper
 public interface BedInfoMapper extends BaseMapper<BedInfo> {
 
     /**

@@ -182,5 +182,15 @@ public class RelocationRecordVO implements Serializable {
     @ApiModelProperty("动迁类型")
     private Integer relocationType;
 
+    /**
+     * 创建者名称
+     */
+    @ApiModelProperty("创建者名称")
+    private String createName;
 
+    /**
+     * 修改者名称
+     */
+    @ApiModelProperty("修改者名称")
+    private String updateName;
 }

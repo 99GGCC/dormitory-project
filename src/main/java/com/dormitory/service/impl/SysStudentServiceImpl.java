@@ -301,7 +301,7 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
     public Boolean status(Long studentId, Integer status) {
         // 查询学生信息
         SysStudent student = baseMapper.selectById(studentId);
-        LambdaUpdateWrapper<SysStudent> lqw = new LambdaUpdateWrapper<>();
+        LambdaUpdateWrapper<SysStudent> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         // 判断学生初始状态
         if (StudentStatusEnum.NORMAL.getCode().equals(student.getStudentStatus())) {
             // 初始状态为正常，判断设置学生状态
@@ -318,7 +318,7 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
             } else {
                 throw new ServiceException("无法设置学生为当前状态!");
             }
-            lqw.set(SysStudent::getBedId, null).set(SysStudent::getDormitoryId, null);
+            lambdaUpdateWrapper.set(SysStudent::getBedId, null).set(SysStudent::getDormitoryId, null);
         } else if (StudentStatusEnum.STOP.getCode().equals(student.getStudentStatus())) {
             // 初始状态为休学，判断设置学生状态
             if (StudentStatusEnum.NORMAL.getCode().equals(status)) {
@@ -333,9 +333,9 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
             throw new ServiceException("无法设置学生为当前状态!");
         }
         // 更新学生状态
-        lqw.set(SysStudent::getStudentStatus, status)
+        lambdaUpdateWrapper.set(SysStudent::getStudentStatus, status)
                 .eq(SysStudent::getStudentId, studentId);
-        return baseMapper.update(null, lqw) > 0;
+        return baseMapper.update(null, lambdaUpdateWrapper) > 0;
     }
 
     /**
@@ -358,6 +358,8 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
         } else {
             // 宿舍未使用，当前学生自动升级为宿舍长
             new LambdaUpdateChainWrapper<>(bedInfoMapper)
+                    // .eq(BedInfo::getBedId, student.getBedId())
+                    // where bed_id = ?
                     .eq(BedInfo::getBedId, student.getBedId())
                     .set(BedInfo::getUseStudent, student.getStudentId())
                     .set(BedInfo::getIsHead, BooleanEnum.TRUE.getCode())

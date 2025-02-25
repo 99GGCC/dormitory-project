@@ -52,6 +52,7 @@ public class CollegeInfoServiceImpl extends ServiceImpl<CollegeInfoMapper, Colle
                 .like(StringUtils.isNotEmpty(qry.getCollegeName()), CollegeInfo::getCollegeName, qry.getCollegeName())
                 .page(pages);
         return CopyUtils.covertPage(pages, CollegeInfoVO.class);
+
     }
 
     /**
@@ -114,7 +115,7 @@ public class CollegeInfoServiceImpl extends ServiceImpl<CollegeInfoMapper, Colle
         // 判断学院信息是否存在
         List<CollegeInfo> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .eq(CollegeInfo::getCollegeName, dto.getCollegeName())
-                .ne(CollegeInfo::getCollegeId, collegeId)
+                .ne(CollegeInfo::getCollegeId, collegeId) // ne 不等于
                 .list();
         if (!CollectionUtils.isEmpty(list)) {
             throw new ServiceException("学院信息已存在,编辑失败!");
@@ -125,6 +126,7 @@ public class CollegeInfoServiceImpl extends ServiceImpl<CollegeInfoMapper, Colle
         collegeInfo.setCollegeId(collegeId);
         // 编辑学院信息，并返回结果
         return baseMapper.updateById(collegeInfo) > 0;
+
     }
 
     /**

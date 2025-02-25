@@ -58,7 +58,6 @@ public class CommonController {
     @Value("${base.img}")
     private String baseImg;
 
-
     @GetMapping(value = "/getImageCode")
     @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码")
     public R<String> getImageCode() {
