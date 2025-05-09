@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dormitory.common.BooleanEnum;
 import com.dormitory.common.Constant;
 import com.dormitory.common.SignInRecordStatusEnum;
+import com.dormitory.common.SignInStatusEnum;
 import com.dormitory.controller.dto.SignInIssueDTO;
 import com.dormitory.controller.qry.SignInIssueQry;
 import com.dormitory.controller.vo.BedInfoVO;
@@ -156,7 +157,7 @@ public class SignInIssueServiceImpl extends ServiceImpl<SignInIssueMapper, SignI
                 .setIssueTime(new Date())
                 .setTotalStudent(bedInfos.size())
                 .setRealityStudent(Constant.INTEGER_ZERO)
-                .setSignInStatus(BooleanEnum.TRUE.getCode())
+                .setSignInStatus(SignInStatusEnum.PUBLISHED.getCode())
                 .setSignInId(IdUtils.getLongId());
         // 组装考勤楼栋列表
         dto.getBuildingIds().forEach(id -> {
@@ -190,7 +191,7 @@ public class SignInIssueServiceImpl extends ServiceImpl<SignInIssueMapper, SignI
         // 更新考勤信息状态
         return new LambdaUpdateChainWrapper<>(baseMapper)
                 .eq(SignInIssue::getSignInId, signInId)
-                .set(SignInIssue::getSignInStatus, BooleanEnum.FALSE.getCode())
+                .set(SignInIssue::getSignInStatus, SignInStatusEnum.CANCELLED.getCode())
                 .update();
     }
 }

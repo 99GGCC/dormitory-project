@@ -104,9 +104,18 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
         // 通过学号判断学生是否存在
         List<SysStudent> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .eq(SysStudent::getStudentNum, dto.getStudentNum())
+                .or()
+                .eq(SysStudent::getStudentEmail, dto.getStudentEmail())
                 .list();
         if (!CollectionUtils.isEmpty(list)) {
             throw new ServiceException("学生已存在，请勿重复添加!");
+        }
+        // 通过床位判断是否被使用
+        list = new LambdaQueryChainWrapper<>(baseMapper)
+                .eq(SysStudent::getBedId, dto.getBedId())
+                .list();
+        if (!CollectionUtils.isEmpty(list)) {
+            throw new ServiceException("该床位已被学生使用，无法重复使用!");
         }
         // 生成学生类
         SysStudent student = CopyUtils.classCopy(dto, SysStudent.class);
@@ -178,7 +187,9 @@ public class SysStudentServiceImpl extends ServiceImpl<SysStudentMapper, SysStud
         // 查询学生信息
         SysStudent student = baseMapper.selectById(studentId);
         // 设置学生宿舍迁出信息
-        setDormitoryInfoOut(student, RelocationTypeEnum.OTHER_OUT);
+        if (!ObjectUtils.isEmpty(student.getDormitoryId()) && !ObjectUtils.isEmpty(student.getBedId())) {
+            setDormitoryInfoOut(student, RelocationTypeEnum.OTHER_OUT);
+        }
         // 删除学生信息
         return baseMapper.deleteById(studentId) > 0;
     }

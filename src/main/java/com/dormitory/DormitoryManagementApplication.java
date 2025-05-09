@@ -14,6 +14,6 @@ public class DormitoryManagementApplication {
         SpringApplication.run(DormitoryManagementApplication.class, args);
         log.info("====================================项目启动成功,SpringBoot Version：[{}]====================================",
                 SpringApplication.class.getPackage().getImplementationVersion());
-        }
+    }
 
-        }
+}

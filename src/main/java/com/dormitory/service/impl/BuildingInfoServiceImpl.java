@@ -189,6 +189,10 @@ public class BuildingInfoServiceImpl extends ServiceImpl<BuildingInfoMapper, Bui
             // 批量保存宿舍信息
             dormitoryInfoService.saveBatch(dormitoryInfoList);
         }
+        // 复制楼栋信息实体
+        buildingInfo = CopyUtils.classCopy(dto, BuildingInfo.class);
+        // 设置楼栋ID
+        buildingInfo.setBuildingId(buildingId);
         // 编辑楼栋信息，并返回结果
         return baseMapper.updateById(buildingInfo) > 0;
     }
