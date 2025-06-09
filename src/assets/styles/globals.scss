@@ -1,0 +1,46 @@
+:root {
+  --g-navbar-height: 50px;
+  --g-tabbar-height: 60px;
+
+  color-scheme: light;
+
+  &.dark {
+    color-scheme: dark;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+// 全局样式
+#app {
+  overflow: hidden auto;
+  font-size: 14px;
+  // 线性渐变 从上到下 白色到浅蓝色
+  background: linear-gradient(to bottom, #fff, #f0f5ff);
+}
+
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 1100;
+}
+
+.btn {
+  min-width: 30px;
+  min-height: 30px;
+  padding: 4px;
+  font-size: 16px;
+  line-height: 30px;
+  color: #192838;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 0 rgb(0 0 0 / 20%);
+}
