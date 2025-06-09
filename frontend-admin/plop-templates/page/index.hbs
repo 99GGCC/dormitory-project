@@ -1,0 +1,24 @@
+{{#if isFilesystem}}
+<route lang="yaml">
+meta:
+  title: 页面标题
+</route>
+
+{{/if}}
+<script setup lang="ts">
+defineOptions({
+  name: '{{ properCase componentName }}',
+})
+</script>
+
+<template>
+  <div>
+    <PageMain>
+      <!-- 布局 -->
+    </PageMain>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+// 样式
+</style>
