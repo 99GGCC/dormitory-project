@@ -1,0 +1,13 @@
+// 原设置 0.2em 会引起页面有1个像素的阴影, 这里直接去掉即可
+.vxe-checkbox:not(.is--disabled) > input:focus + .vxe-checkbox--icon {
+  color: var(--vxe-primary-color);
+  box-shadow: 0 0 0 0 var(--vxe-primary-color);
+}
+
+.vxe-form {
+  background-color: var(--g-container-bg);
+}
+
+html.dark {
+  --vxe-toolbar-background-color: var(--g-bg);
+}
