@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dormitory.mapper.BedInfoMapper">
+
+    <select id="listByQry" resultType="com.dormitory.controller.vo.BedInfoVO">
+        SELECT
+            di.dormitory_id,
+            di.dormitory_name,
+            di.building_id,
+            di.building_floor,
+            di.dormitory_status,
+            bi.bed_id,
+            bi.bed_name,
+            bi.bed_status,
+            bi.use_student,
+            bi.is_head,
+            ss.student_id,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_sex,
+            ss.student_status,
+            ci.classes_id,
+            ci.classes_name,
+            ci.classes_status,
+            mi.major_id,
+            mi.major_name,
+            cei.college_id,
+            cei.college_name
+        FROM
+            bed_info bi
+                LEFT JOIN dormitory_info di ON bi.delete_flag = 0 AND bi.dormitory_id = di.dormitory_id
+                LEFT JOIN sys_student ss ON ss.delete_flag = 0 AND ss.student_id = bi.use_student
+                LEFT JOIN classes_info ci ON ci.delete_flag = 0 AND ss.classes_id = ci.classes_id
+                LEFT JOIN major_info mi ON mi.delete_flag = 0 AND ci.major_id = mi.major_id
+                LEFT JOIN college_info cei ON cei.delete_flag = 0 AND mi.college_id = cei.college_id
+        WHERE
+        bi.delete_flag = 0
+        <if test="qry.dormitoryId != null">
+            AND bi.dormitory_id = #{qry.dormitoryId}
+        </if>
+        <if test="qry.bedStatus != null">
+            AND bi.bed_status = #{qry.bedStatus}
+        </if>
+       <if test="qry.isUse == 1">
+           AND (bi.use_student IS NOT NULL OR bi.use_student != 0)
+       </if>
+        <if test="qry.isUse == 0">
+            AND (bi.use_student IS NULL OR bi.use_student = 0)
+        </if>
+        ORDER BY bi.bed_id ASC
+    </select>
+    <select id="selectByBuildingIds" resultType="com.dormitory.controller.vo.BedInfoVO">
+        SELECT
+        bi.bed_id,
+        bi.bed_name,
+        bi.dormitory_id,
+        bi.bed_status,
+        bi.use_student,
+        bi.is_head,
+        ss.student_id,
+        ss.student_name,
+        ss.student_num,
+        ss.student_phone,
+        ss.student_email
+        FROM
+        bed_info bi
+        LEFT JOIN dormitory_info di ON bi.dormitory_id = di.dormitory_id AND di.delete_flag = 0
+        LEFT JOIN sys_student ss ON bi.use_student = ss.student_id AND ss.delete_flag = 0
+        WHERE
+        bi.delete_flag = 0
+        AND ( bi.use_student IS NOT NULL OR bi.use_student != 0 )
+        AND di.building_id IN
+        <foreach collection="buildingIds" item="buildingId" open="(" separator="," close=")">
+            #{buildingId}
+        </foreach>
+    </select>
+</mapper>

@@ -1,0 +1,17 @@
+server:
+  port: 8081
+  # 开启优雅停机
+  shutdown: graceful
+spring:
+  application:
+    name: dormitory_management
+  profiles:
+    active: dev
+  jackson:
+    # 格式化全局时间字段 年-月-天
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 指定时间区域类型 东8区时区 即北京时间
+    time-zone: GMT+8
+# 文件上传配置路径
+base:
+  img: "/src/main/resources/images/"

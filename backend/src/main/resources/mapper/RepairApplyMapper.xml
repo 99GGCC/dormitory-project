@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dormitory.mapper.RepairApplyMapper">
+
+    <select id="pageByQry" resultType="com.dormitory.controller.vo.RepairApplyVO">
+        SELECT
+            ra.repair_id,
+            ra.student_id,
+            ra.dormitory_id,
+            ra.repair_facilities,
+            ra.fault_description,
+            ra.apply_time,
+            ra.repair_status,
+            ra.repair_result,
+            ra.create_time,
+            ra.update_time,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            di.dormitory_name,
+            di.building_floor,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name
+        FROM
+            repair_apply ra
+                LEFT JOIN sys_student ss ON ss.student_id = ra.student_id
+                LEFT JOIN dormitory_info di ON di.dormitory_id = ra.dormitory_id
+                LEFT JOIN building_info bi ON bi.building_id = di.building_id
+        WHERE
+            ra.delete_flag = 0
+        <if test="qry.studentId != null">
+            AND ra.student_id = #{qry.studentId}
+        </if>
+        <if test="qry.dormitoryId != null">
+            AND ra.dormitory_id = #{qry.dormitoryId}
+        </if>
+        <if test="qry.buildingId != null">
+            AND bi.building_id = #{qry.buildingId}
+        </if>
+        <if test="qry.repairStatus != null">
+            AND ra.repair_status = #{qry.repairStatus}
+        </if>
+        ORDER BY ra.create_time DESC
+    </select>
+    <select id="detailById" resultType="com.dormitory.controller.vo.RepairApplyVO">
+        SELECT
+            ra.repair_id,
+            ra.student_id,
+            ra.dormitory_id,
+            ra.repair_facilities,
+            ra.fault_description,
+            ra.apply_time,
+            ra.repair_status,
+            ra.repair_result,
+            ra.create_time,
+            ra.update_time,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            di.dormitory_name,
+            di.building_floor,
+            bi.building_id,
+            bi.building_name,
+            bi.short_name
+        FROM
+            repair_apply ra
+                LEFT JOIN sys_student ss ON ss.student_id = ra.student_id
+                LEFT JOIN dormitory_info di ON di.dormitory_id = ra.dormitory_id
+                LEFT JOIN building_info bi ON bi.building_id = di.building_id
+        WHERE
+            ra.delete_flag = 0 AND ra.repair_id = #{repairId}
+    </select>
+</mapper>

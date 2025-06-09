@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dormitory.mapper.SignInRecordMapper">
+
+    <select id="pageByQry" resultType="com.dormitory.controller.vo.SignInRecordVO">
+        SELECT
+            sir.record_id,
+            sir.sign_in_id,
+            sir.student_id,
+            sir.record_status,
+            sir.record_time,
+            sir.send_status,
+            sii.issue_time,
+            sii.admin_id,
+            sii.total_student,
+            sii.reality_student,
+            sii.end_time,
+            sii.sign_in_status,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_email,
+            ss.student_sex,
+            ss.classes_id,
+            ss.dormitory_id,
+            ss.bed_id,
+            ss.student_status,
+            bi.bed_name,
+            bi.bed_status,
+            bi.is_head,
+            di.dormitory_name,
+            di.building_id,
+            di.building_floor,
+            di.dormitory_status,
+            di.use_status,
+            bingi.building_name,
+            bingi.short_name,
+            bingi.building_floor AS buildingFloor1,
+            bingi.building_type,
+            bingi.room_num,
+            bingi.building_admin,
+            bingi.building_phone,
+            ci.classes_name,
+            ci.instructor_name,
+            ci.instructor_phone,
+            ci.classes_status,
+            mi.major_name,
+            mi.major_desc,
+            mi.college_id,
+            cei.college_desc,
+            cei.college_name
+        FROM
+            sign_in_record sir
+                LEFT JOIN sign_in_issue sii ON sir.sign_in_id = sii.sign_in_id
+                LEFT JOIN sys_student ss ON sir.student_id = ss.student_id
+                LEFT JOIN bed_info bi ON ss.bed_id = bi.bed_id
+                LEFT JOIN dormitory_info di ON bi.dormitory_id = di.dormitory_id
+                LEFT JOIN building_info bingi ON di.building_id = bingi.building_id
+                LEFT JOIN classes_info ci ON ss.classes_id = ci.classes_id
+                LEFT JOIN major_info mi ON ci.major_id = mi.major_id
+                LEFT JOIN college_info cei ON mi.college_id = cei.college_id
+        WHERE
+            sir.delete_flag = 0
+        <if test="qry.signInId != null">
+            AND sir.sign_in_id = #{qry.signInId}
+        </if>
+        <if test="qry.studentId != null">
+            AND sir.student_id = #{qry.studentId}
+        </if>
+        <if test="qry.recordStatus != null">
+            AND sir.record_status = #{qry.recordStatus}
+        </if>
+        <if test="qry.isFilter != null">
+            AND sii.sign_in_status != 0
+        </if>
+        ORDER BY sir.record_id DESC
+    </select>
+    <select id="detailById" resultType="com.dormitory.controller.vo.SignInRecordVO">
+        SELECT
+            sir.record_id,
+            sir.sign_in_id,
+            sir.student_id,
+            sir.record_status,
+            sir.record_time,
+            sir.send_status,
+            sii.issue_time,
+            sii.admin_id,
+            sii.total_student,
+            sii.reality_student,
+            sii.end_time,
+            sii.sign_in_status,
+            ss.student_name,
+            ss.student_num,
+            ss.student_phone,
+            ss.student_email,
+            ss.student_sex,
+            ss.classes_id,
+            ss.dormitory_id,
+            ss.bed_id,
+            ss.student_status,
+            bi.bed_name,
+            bi.bed_status,
+            bi.is_head,
+            di.dormitory_name,
+            di.building_id,
+            di.building_floor,
+            di.dormitory_status,
+            di.use_status,
+            bingi.building_name,
+            bingi.short_name,
+            bingi.building_floor AS buildingFloor1,
+            bingi.building_type,
+            bingi.room_num,
+            bingi.building_admin,
+            bingi.building_phone,
+            ci.classes_name,
+            ci.instructor_name,
+            ci.instructor_phone,
+            ci.classes_status,
+            mi.major_name,
+            mi.major_desc,
+            mi.college_id,
+            cei.college_desc,
+            cei.college_name
+        FROM
+            sign_in_record sir
+                LEFT JOIN sign_in_issue sii ON sir.sign_in_id = sii.sign_in_id
+                LEFT JOIN sys_student ss ON sir.student_id = ss.student_id
+                LEFT JOIN bed_info bi ON ss.bed_id = bi.bed_id
+                LEFT JOIN dormitory_info di ON bi.dormitory_id = di.dormitory_id
+                LEFT JOIN building_info bingi ON di.building_id = bingi.building_id
+                LEFT JOIN classes_info ci ON ss.classes_id = ci.classes_id
+                LEFT JOIN major_info mi ON ci.major_id = mi.major_id
+                LEFT JOIN college_info cei ON mi.college_id = cei.college_id
+        WHERE
+            sir.delete_flag = 0 AND sir.record_id = #{recordId}
+    </select>
+</mapper>
